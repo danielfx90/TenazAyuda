@@ -1,19 +1,21 @@
 #include <Servo.h>
 
+bool DEBUG = true;
+
 /* ***************************************************************************************
  *                                      PINES BOTONERA                                   *
  * ***************************************************************************************/
-int up_button = 2;
-int down_button = 4;
-int left_button = 5;
-int right_button = 3;
-int start_button = 6;
-int select_button = 7;
-int analog_button = 8;
-int x_axis = A0;
-int y_axis = A1;
-int buttons[] = {up_button, down_button, left_button, right_button, start_button, select_button, analog_button};
-int buttons_quantity = 7;
+const int up_button = 2;
+const int down_button = 4;
+const int left_button = 5;
+const int right_button = 3;
+const int start_button = 6;
+const int select_button = 7;
+const int analog_button = 8;
+const int x_axis = A0;
+const int y_axis = A1;
+const int buttons[] = {up_button, down_button, left_button, right_button, start_button, select_button, analog_button};
+const int buttons_quantity = 7;
 
 /* ***************************************************************************************
  *                                     MAPEO A FUNCIONES                                 *
@@ -38,12 +40,15 @@ Servo servo_base;
 Servo servo_tronco;
 Servo servo_trompa;
 Servo servo_pinza;
+Servo servos[] = { servo_base, servo_tronco, servo_trompa, servo_pinza };
+const int servos_quantity = 4;
+int current_pair_selection = 0;
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
  * ***************************************************************************************/
 void init_buttons() {
-  for (int i; i < buttons_quantity; i++) {
+  for (int i = 0; i < buttons_quantity; i++) {
    pinMode(buttons[i], INPUT_PULLUP);
   }
 }
@@ -74,26 +79,33 @@ void printJoystick(int xAxisId, int yAxisId) {
   Serial.print("Y = "),Serial.print(map(analogRead(yAxisId), 0, 1023, -1, 1));Serial.print("\n");
 }
 
-void updateServo(int axis_id, Servo* servo) {
-  int val = analogRead(axis_id);            // reads the value of the potentiometer (value between 0 and 1023)
-  val = map(val, 0, 1023, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
-  servo->write(val);
+void update_servo(int axis_id, Servo* servo) {
+  int val = analogRead(axis_id);
+  val = map(val, 0, 1023, -100, 100);
+  int final_val = val / 10;
+  servo->write(servo->read() + final_val);
+}
+
+void update_servos_pair() {
+  int base_servo_index = current_pair_selection * 2;
+  update_servo(x_axis, &servos[base_servo_index]);
+  update_servo(y_axis, &servos[base_servo_index + 1]);
+}
+
+void read_servos_pair_selection() {
+  int selection = digitalRead(boton_cambios);
+  if (selection == LOW) {
+    current_pair_selection = (current_pair_selection + 2) % servos_quantity;
+    if (DEBUG) {
+      Serial.print("Par de servos: "),Serial.print(current_pair_selection),Serial.print("\n");
+    }
+  }
 }
 
 void loop() {
-  printButton("UP", up_button);
-  printButton("DOWN", down_button);
-  printButton("LEFT", left_button);
-  printButton("RIGHT", right_button);
-  printButton("START", start_button);
-  printButton("SELECT", select_button);
-  printButton("ANALOG", analog_button);
-  printButton("X", start_button);
-  printJoystick(x_axis, y_axis);
-  updateServo(x_axis, &servo_base);
-  updateServo(y_axis, &servo_tronco);
-  
-  delay(100);
+  update_servos_pair();
+  read_servos_pair_selection();
+  delay(150);
 }
 
 
