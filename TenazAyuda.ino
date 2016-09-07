@@ -1,4 +1,5 @@
 #include <Servo.h>
+#include "MyServo.h"
 
 bool DEBUG = true;
 
