@@ -1,7 +1,5 @@
 #include "MyServo.h"
 
-#include <Arduino.h>
-
 MyServo::MyServo(int pin): pin(pin), servo() {}
 
 void MyServo::setUp() {
