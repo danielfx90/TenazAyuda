@@ -1,12 +1,15 @@
 #include "MyServo.h"
 
-MyServo::MyServo(int pin): pin(pin), servo() {
+#include <Arduino.h>
+
+MyServo::MyServo(int pin): pin(pin), servo() : Motor() {}
+
+void MyServo::setUp() {
 	this->servo.attach(this->pin);
 }
 
-void MyServo::updateFromAnalog(int analogPin) {
-  int analogVal = analogRead(analogPin);
-  int rawVal = map(analogVal, 0, 1023, -100, 100);
+void MyServo::updateFromAnalog(AnalogInput& input) {
+  int rawVal = input.read(-100, 100);
   int finalVal = rawVal / 10;
   this->servo.write(this->servo.read() + finalVal);
 }
