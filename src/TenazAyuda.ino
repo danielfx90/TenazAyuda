@@ -32,18 +32,9 @@ const int boton_giro[] = {x_axis, y_axis};
 /* ***************************************************************************************
  *                                         MOTORES                                       *
  * ***************************************************************************************/
-const int servo_base_pin = 3;
-const int servo_tronco_pin = 6;
-const int servo_trompa_pin = 5;
-const int servo_pinza_pin = 11;
+const int servo_base_pin = 51;
 
 Servo servo_base;
-Servo servo_tronco;
-Servo servo_trompa;
-Servo servo_pinza;
-Servo servos[] = { servo_base, servo_tronco, servo_trompa, servo_pinza };
-const int servos_quantity = 4;
-int current_pair_selection = 0;
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
@@ -56,9 +47,6 @@ void init_buttons() {
 
 void attach_servos() {
   servo_base.attach(servo_base_pin);
-  servo_tronco.attach(servo_tronco_pin);
-  servo_trompa.attach(servo_trompa_pin);
-  servo_pinza.attach(servo_pinza_pin);
 }
 
 void setup() {
@@ -88,24 +76,11 @@ void update_servo(int axis_id, Servo* servo) {
 }
 
 void update_servos_pair() {
-  int base_servo_index = current_pair_selection * 2;
-  update_servo(x_axis, &servos[base_servo_index]);
-  update_servo(y_axis, &servos[base_servo_index + 1]);
-}
-
-void read_servos_pair_selection() {
-  int selection = digitalRead(boton_cambios);
-  if (selection == LOW) {
-    current_pair_selection = (current_pair_selection + 2) % servos_quantity;
-    if (DEBUG) {
-      Serial.print("Par de servos: "),Serial.print(current_pair_selection),Serial.print("\n");
-    }
-  }
+  update_servo(x_axis, &servo_base);
 }
 
 void loop() {
   update_servos_pair();
-  read_servos_pair_selection();
   delay(150);
 }
 

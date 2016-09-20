@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-MyServo::MyServo(int pin): pin(pin), servo() : Motor() {}
+MyServo::MyServo(int pin): pin(pin), servo() {}
 
 void MyServo::setUp() {
 	this->servo.attach(this->pin);

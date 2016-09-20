@@ -12,8 +12,8 @@ class MyServo : Motor {
 	
 public:
 	MyServo(int pin);
-	// void setUp();
-	// void updateFromAnalog(AnalogInput& input);
+	virtual void setUp();
+	virtual void updateFromAnalog(AnalogInput& input);
 };
 
 #endif
