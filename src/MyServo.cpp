@@ -2,7 +2,7 @@
 
 MyServo::MyServo(int pin): pin(pin), servo() {}
 
-void MyServo::setUp() {
+void MyServo::setup() {
 	this->servo.attach(this->pin);
 }
 

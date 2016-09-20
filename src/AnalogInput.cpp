@@ -2,8 +2,7 @@
 
 #include <Arduino.h>
 
-AnalogInput::AnalogInput(int pin): pin(pin) {
-}
+AnalogInput::AnalogInput(int pin): pin(pin) {}
 
 int AnalogInput::read(int from, int to) {
   int rawVal = analogRead(this->pin);
