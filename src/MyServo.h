@@ -10,10 +10,14 @@ class MyServo : public Motor {
 	int pin;
 	Servo servo;
 
+protected:
+	virtual void doWriteWithAnalog(AnalogInput& input);
+	virtual void doWriteWithPosition(int position);
+
 public:
 	MyServo(int pin);
 	virtual void setup();
-	virtual void updateFromAnalog(AnalogInput& input);
+	virtual void update();
 };
 
 #endif
