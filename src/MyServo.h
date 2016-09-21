@@ -14,6 +14,7 @@ public:
 	MyServo(int pin);
 	virtual void setup();
 	virtual void updateFromAnalog(AnalogInput& input);
+	virtual void updateFromPosition(int position);
 };
 
 #endif

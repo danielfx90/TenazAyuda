@@ -11,3 +11,7 @@ void MyServo::updateFromAnalog(AnalogInput& input) {
   int finalVal = rawVal / 10;
   this->servo.write(this->servo.read() + finalVal);
 }
+
+void MyServo::updateFromPosition(int position) {
+	this->servo.write(position);
+}

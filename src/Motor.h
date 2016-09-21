@@ -8,6 +8,7 @@ class Motor {
 public:
 	virtual void setup() = 0;
 	virtual void updateFromAnalog(AnalogInput& input) = 0;
+	virtual void updateFromPosition(int position) = 0;
 };
 
 #endif
