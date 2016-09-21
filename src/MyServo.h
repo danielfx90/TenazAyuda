@@ -5,14 +5,14 @@
 #include "Motor.h"
 #include "AnalogInput.h"
 
-class MyServo : Motor {
-	
+class MyServo : public Motor {
+
 	int pin;
 	Servo servo;
-	
+
 public:
 	MyServo(int pin);
-	virtual void setUp();
+	virtual void setup();
 	virtual void updateFromAnalog(AnalogInput& input);
 };
 

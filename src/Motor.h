@@ -4,7 +4,7 @@
 #include "AnalogInput.h"
 
 class Motor {
-	
+
 public:
 	virtual void setUp() = 0;
 	virtual void updateFromAnalog(AnalogInput& input) = 0;
