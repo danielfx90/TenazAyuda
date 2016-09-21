@@ -13,8 +13,9 @@ class MotorsContainer {
 public:
 	MotorsContainer(Motor** motors, int quantity);
 	void setup();
-	void updateFromJoystick(Joystick& joystick);
-	void updateFromPositions(int* positions, int positionsQuantity);
+	void writeWithJoystick(Joystick& joystick);
+	void writeWithPositions(int* positions, int positionsQuantity);
+	void update();
 };
 
 #endif

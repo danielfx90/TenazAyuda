@@ -9,18 +9,24 @@ void MotorsContainer::setup() {
 	}
 }
 
-void MotorsContainer::updateFromJoystick(Joystick& joystick) {
+void MotorsContainer::writeWithJoystick(Joystick& joystick) {
 	if (joystick.isPressed()) {
     this->currentPairSelection = (this->currentPairSelection + 2) % this->quantity;
   }
-  this->motors[this->currentPairSelection]->updateFromAnalog(joystick.getXAxisInput());
+  this->motors[this->currentPairSelection]->writeWithAnalog(joystick.getXAxisInput());
 	if ((this->currentPairSelection + 1) < this->quantity) {
-		this->motors[this->currentPairSelection + 1]->updateFromAnalog(joystick.getYAxisInput());
+		this->motors[this->currentPairSelection + 1]->writeWithAnalog(joystick.getYAxisInput());
 	}
 }
 
-void MotorsContainer::updateFromPositions(int* positions, int positionsQuantity) {
+void MotorsContainer::writeWithPositions(int* positions, int positionsQuantity) {
 	for(int i = 0; i < this->quantity && i < positionsQuantity; i++) {
-		this->motors[i]->updateFromPosition(positions[i]);
+		this->motors[i]->writeWithPosition(positions[i]);
+	}
+}
+
+void MotorsContainer::update() {
+	for(int i = 0; i < this->quantity; i++) {
+		this->motors[i]->update();
 	}
 }

@@ -11,8 +11,8 @@ class MyServo : public Motor {
 	Servo servo;
 
 protected:
-	virtual void doUpdateFromAnalog(AnalogInput& input);
-	virtual void doUpdateFromPosition(int position);
+	virtual void doWriteWithAnalog(AnalogInput& input);
+	virtual void doWriteWithPosition(int position);
 
 public:
 	MyServo(int pin);

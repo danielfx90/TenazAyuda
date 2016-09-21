@@ -6,12 +6,12 @@ void MyServo::setup() {
 	this->servo.attach(this->pin);
 }
 
-void MyServo::doUpdateFromAnalog(AnalogInput& input) {
+void MyServo::doWriteWithAnalog(AnalogInput& input) {
   int rawVal = input.read(-100, 100);
   int finalVal = rawVal / 10;
   this->servo.write(this->servo.read() + finalVal);
 }
 
-void MyServo::doUpdateFromPosition(int position) {
+void MyServo::doWriteWithPosition(int position) {
 	this->servo.write(position);
 }
