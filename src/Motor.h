@@ -6,7 +6,7 @@
 class Motor {
 
 public:
-	virtual void setUp() = 0;
+	virtual void setup() = 0;
 	virtual void updateFromAnalog(AnalogInput& input) = 0;
 };
 
