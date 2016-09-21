@@ -15,3 +15,5 @@ void MyServo::doWriteWithAnalog(AnalogInput& input) {
 void MyServo::doWriteWithPosition(int position) {
 	this->servo.write(position);
 }
+
+void MyServo::update() {}

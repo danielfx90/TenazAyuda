@@ -17,6 +17,7 @@ protected:
 public:
 	MyServo(int pin);
 	virtual void setup();
+	virtual void update();
 };
 
 #endif
