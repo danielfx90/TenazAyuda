@@ -13,7 +13,15 @@ bool DEBUG = true;
  *                                      PINES BOTONERA                                   *
  * ***************************************************************************************/
 
-const int buttons[] = {UP_BUTTON, DOWN_BUTTON, LEFT_BUTTON, RIGHT_BUTTON, START_BUTTON, SELECT_BUTTON, ANALOG_BUTTON};
+DigitalInput up(UP_BUTTON);
+DigitalInput right(RIGHT_BUTTON);
+DigitalInput down(DOWN_BUTTON);
+DigitalInput left(LEFT_BUTTON);
+DigitalInput start(START_BUTTON);
+DigitalInput select(SELECT_BUTTON);
+Joystick joystick(X_AXIS, Y_AXIS, ANALOG_BUTTON);
+
+DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button, no potensiometer
 
 /* ***************************************************************************************
  *                                         MOTORES                                       *
@@ -27,7 +35,7 @@ Servo servo_base;
  * ***************************************************************************************/
 void init_buttons() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
-   pinMode(buttons[i], INPUT_PULLUP);
+   buttons[i].setup();
   }
 }
 
