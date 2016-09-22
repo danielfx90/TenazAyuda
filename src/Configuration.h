@@ -10,7 +10,7 @@
 #define RIGHT_BUTTON 3
 #define START_BUTTON 6
 #define SELECT_BUTTON 7
-#define ANALOG_BUTTON 8
+#define JOYSTICK_BUTTON 8
 #define X_AXIS A0
 #define Y_AXIS A1
 #define BUTTONS_QUANTITY 7

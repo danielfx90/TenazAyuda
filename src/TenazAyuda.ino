@@ -9,9 +9,9 @@
 
 bool DEBUG = true;
 
-/* ***************************************************************************************
- *                                      PINES BOTONERA                                   *
- * ***************************************************************************************/
+/* *****************************************************************************
+ *                                   INPUTS                                    *
+ * *****************************************************************************/
 
 DigitalInput up(UP_BUTTON);
 DigitalInput right(RIGHT_BUTTON);
@@ -19,13 +19,13 @@ DigitalInput down(DOWN_BUTTON);
 DigitalInput left(LEFT_BUTTON);
 DigitalInput start(START_BUTTON);
 DigitalInput select(SELECT_BUTTON);
-Joystick joystick(X_AXIS, Y_AXIS, ANALOG_BUTTON);
+Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON);
 
-DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button, no potensiometer
+DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button only, not the potentiometer
 
-/* ***************************************************************************************
- *                                         MOTORES                                       *
- * ***************************************************************************************/
+/* *****************************************************************************
+ *                                   MOTORS                                    *
+ * *****************************************************************************/
 const int servo_base_pin = 51;
 
 Servo servo_base;
