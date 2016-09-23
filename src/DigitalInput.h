@@ -1,19 +1,17 @@
 #ifndef DigitalInput_h
 #define DigitalInput_h
 
-#include "Input.h"
-
-class DigitalInput : public Input {
+class DigitalInput {
 
 	int pin;
 	int value;
-
-protected:
-  virtual void doUpdate();
+	long coolDownInterrups;
+  long countedInterrups;
 
 public:
 	DigitalInput(int pin, long coolDownInterrups);
   void setup();
+	void update();
 	bool isPressed();
 };
 

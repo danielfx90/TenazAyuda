@@ -2,14 +2,19 @@
 
 #include <Arduino.h>
 
-DigitalInput::DigitalInput(int pin, long coolDownInterrups): Input(coolDownInterrups), pin(pin), value(HIGH) {}
+DigitalInput::DigitalInput(int pin, long coolDownInterrups): pin(pin), value(HIGH), coolDownInterrups(coolDownInterrups) {}
 
 void DigitalInput::setup() {
 	pinMode(this->pin, INPUT_PULLUP);
 }
 
-void DigitalInput::doUpdate() {
-	this->value = digitalRead(this->pin);
+void DigitalInput::update() {
+	if (this->countedInterrups >= this->coolDownInterrups) {
+    this->value = digitalRead(this->pin);
+    this->countedInterrups = 0;
+  } else {
+    this->countedInterrups++;
+  }
 }
 
 bool DigitalInput::isPressed() {
