@@ -2,13 +2,16 @@
 
 #include <Arduino.h>
 
-DigitalInput::DigitalInput(int pin): pin(pin) {}
+DigitalInput::DigitalInput(int pin, long coolDownInterrups): Input(coolDownInterrups), pin(pin), value(HIGH) {}
 
 void DigitalInput::setup() {
 	pinMode(this->pin, INPUT_PULLUP);
 }
 
+void DigitalInput::doUpdate() {
+	this->value = digitalRead(this->pin);
+}
+
 bool DigitalInput::isPressed() {
-  int value = digitalRead(this->pin);
-  return value == LOW;
+  return this->value == LOW;
 }
