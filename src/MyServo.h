@@ -8,8 +8,8 @@
 class MyServo : public Motor {
 
 	int pin;
-	int minRotation;
-	int maxRotation;
+	float minRotation;
+	float maxRotation;
 	Servo servo;
 
 protected:
@@ -17,7 +17,7 @@ protected:
 	virtual void doWriteWithPosition(int position);
 
 public:
-	MyServo(int pin, int minRotation, int maxRotation);
+	MyServo(int pin, float minRotation, float maxRotation);
 	virtual void setup();
 	virtual void update();
 };

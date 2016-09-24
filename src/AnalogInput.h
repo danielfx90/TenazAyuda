@@ -9,7 +9,7 @@ class AnalogInput {
 public:
 	AnalogInput(int pin);
 	void update();
-	int read(int from, int to);
+	float read(float from, float to);
 };
 
 #endif

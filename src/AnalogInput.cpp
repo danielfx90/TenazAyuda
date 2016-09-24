@@ -8,6 +8,6 @@ void AnalogInput::update() {
   this->value = analogRead(this->pin);
 }
 
-int AnalogInput::read(int from, int to) {
+float AnalogInput::read(float from, float to) {
   return map(this->value, 0, 1023, from, to);
 }
