@@ -13,22 +13,24 @@ bool DEBUG = true;
  *                                   INPUTS                                    *
  * *****************************************************************************/
 
-DigitalInput up(UP_BUTTON);
-DigitalInput right(RIGHT_BUTTON);
-DigitalInput down(DOWN_BUTTON);
-DigitalInput left(LEFT_BUTTON);
-DigitalInput start(START_BUTTON);
-DigitalInput select(SELECT_BUTTON);
-Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON);
+DigitalInput up(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput right(RIGHT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput down(DOWN_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput left(LEFT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput start(START_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput select(SELECT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 
 DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button only, not the potentiometer
 
 /* *****************************************************************************
  *                                   MOTORS                                    *
  * *****************************************************************************/
-const int servo_base_pin = 51;
 
-Servo servo_base;
+MyStepper stepperBase(8, 9, 400, 150);
+MyStepper stepperRotador(10,11, 800, 120);
+Motor* motors[] = { &stepperBase, &stepperRotador };
+MotorsContainer motorsContainer(motors, 2);
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
@@ -39,13 +41,9 @@ void init_buttons() {
   }
 }
 
-void attach_servos() {
-  servo_base.attach(servo_base_pin);
-}
-
 void setup() {
   init_buttons();
-  attach_servos();
+  motorsContainer.setup();
   Serial.begin(9600);
 }
 
@@ -53,18 +51,14 @@ void setup() {
  *                                       PROGRAMA                                        *
  * ***************************************************************************************/
 
-void update_servo(int axis_id, Servo* servo) {
-  int val = analogRead(axis_id);
-  val = map(val, 0, 1023, -100, 100);
-  int final_val = val / 10;
-  servo->write(servo->read() + final_val);
-}
-
-void update_servos_pair() {
-  update_servo(X_AXIS, &servo_base);
+void updateInputs() {
+  for (int i = 0; i < BUTTONS_QUANTITY; i++) {
+   buttons[i].update();
+  }
+  joystick.update();
 }
 
 void loop() {
-  update_servos_pair();
-  delay(150);
+  
+  motorsContainer.update();
 }
