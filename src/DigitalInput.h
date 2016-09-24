@@ -10,13 +10,14 @@ class DigitalInput {
 	long coolDownInterrups;
   long countedInterrups;
 
-	Subscriber& subscriber;
+	Subscriber* subscriber;
 
 public:
-	DigitalInput(int pin, long coolDownInterrups, Subscriber& subscriber);
+	DigitalInput(int pin, long coolDownInterrups);
   void setup();
 	void update();
 	bool isPressed();
+	bool subscribe(Subscriber* subscriber);
 };
 
 #endif

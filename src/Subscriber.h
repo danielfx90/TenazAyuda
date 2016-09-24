@@ -3,8 +3,15 @@
 
 class Subscriber {
 
+	bool notified;
+
+protected:
+	void resetNotification();
+
 public:
-	virtual void notify() = 0;
+	Subscriber();
+	bool isNotified();
+	void notify();
 };
 
 #endif

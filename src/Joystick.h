@@ -11,7 +11,7 @@ class Joystick : public DigitalInput {
 	AnalogInput yAxis;
 
 public:
-	Joystick(int xAxisPin, int yAxisPin, int buttonPin, long buttonCoolDownInterrups, Subscriber& subscriber);
+	Joystick(int xAxisPin, int yAxisPin, int buttonPin, long buttonCoolDownInterrups);
 	AnalogInput& getXAxisInput();
 	AnalogInput& getYAxisInput();
 };
