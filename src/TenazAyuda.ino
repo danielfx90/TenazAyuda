@@ -4,6 +4,7 @@
 #include "Joystick.h"
 #include "Motor.h"
 #include "MyServo.h"
+#include "MyServoPair.h"
 #include "MyStepper.h"
 #include "MotorsContainer.h"
 
@@ -34,6 +35,8 @@ MyServo servoElevacionBrazo(SERVO_ELEVACION_BRAZO_PIN, SERVO_ELEVACION_BRAZO_MIN
 MyServo servoElevacionMano(SERVO_ELEVACION_MANO_PIN, SERVO_ELEVACION_MANO_MIN_ROTATION, SERVO_ELEVACION_MANO_MAX_ROTATION);
 
 MyServo servoRotacionMano(SERVO_ROTACION_MANO_PIN, SERVO_ROTACION_MANO_MIN_ROTATION, SERVO_ROTACION_MANO_MAX_ROTATION);
+MyServoPair servosTenazas(SERVO_TENAZAS_A_PIN, SERVO_TENAZAS_A_MIN_ROTATION, SERVO_TENAZAS_A_MAX_ROTATION,
+                          SERVO_TENAZAS_B_PIN, SERVO_TENAZAS_B_MIN_ROTATION, SERVO_TENAZAS_B_MAX_ROTATION);
 
 Motor* motors[] = { &stepperBase, &stepperRotador };
 MotorsContainer motorsContainer(motors, 2);
