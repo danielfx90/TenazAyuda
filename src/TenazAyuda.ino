@@ -37,8 +37,9 @@ MyServo servoElevacionMano(SERVO_ELEVACION_MANO_PIN, SERVO_ELEVACION_MANO_MIN_RO
 MyServoPair servosTenazas(SERVO_TENAZAS_A_PIN, SERVO_TENAZAS_A_MIN_ROTATION, SERVO_TENAZAS_A_MAX_ROTATION,
                           SERVO_TENAZAS_B_PIN, SERVO_TENAZAS_B_MIN_ROTATION, SERVO_TENAZAS_B_MAX_ROTATION);
 
-Motor* motors[] = { &stepperBase, &stepperRotador };
-MotorsContainer motorsContainer(motors, 2);
+//Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano };
+Motor* motors[] = { &servoElevacionBrazo };
+MotorsContainer motorsContainer(motors, 1);
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
@@ -47,11 +48,13 @@ void init_buttons() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
    buttons[i].setup();
   }
+  joystick.setup();
 }
 
 void setup() {
   init_buttons();
   motorsContainer.setup();
+  joystick.subscribe(motorsContainer);
   Serial.begin(9600);
 }
 
@@ -83,7 +86,7 @@ int cyclesCount = 0;
 
 void loop() {
   // temporal
-  if (cyclesCount % 1000 == 0) {
+  if (cyclesCount % 5 == 0) {
     statedChanged = true;
     cyclesCount = 0;
   } else {
@@ -97,8 +100,4 @@ void loop() {
     statedChanged = false;
   }
   motorsContainer.update();
-
-  if (DEBUG) {
-    printStates();
-  }
 }
