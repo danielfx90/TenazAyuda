@@ -3,6 +3,7 @@
 
 #include "DigitalInput.h"
 #include "AnalogInput.h"
+#include "Subscriber.h"
 
 class Joystick : public DigitalInput {
 
@@ -10,7 +11,7 @@ class Joystick : public DigitalInput {
 	AnalogInput yAxis;
 
 public:
-	Joystick(int xAxisPin, int yAxisPin, int buttonPin);
+	Joystick(int xAxisPin, int yAxisPin, int buttonPin, long buttonCoolDownInterrups);
 	AnalogInput& getXAxisInput();
 	AnalogInput& getYAxisInput();
 };
