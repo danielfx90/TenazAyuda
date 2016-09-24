@@ -1,18 +1,24 @@
 #include "MyServo.h"
 
-MyServo::MyServo(int pin): Motor(), pin(pin), servo() {}
+MyServo::MyServo(int pin, int minRotation, int maxRotation)
+	: Motor(), pin(pin), minRotation(minRotation), maxRotation(maxRotation), servo() {}
 
 void MyServo::setup() {
 	this->servo.attach(this->pin);
 }
 
-void MyServo::doWriteWithAnalog(AnalogInput& input) {
+void MyServo::doWriteWithAnalog(AnalogInput& input, int direction) {
   int rawVal = input.read(-100, 100);
-  int filteredVal = rawVal / 10;
-	int finalVal = this->servo.read() + filteredVal;
-	if (finalVal > 0 && finalVal < 180) {
-		this->servo.write(finalVal);
+  int filteredVal = direction * rawVal / 10;
+	int currentPosition = this->servo.read();
+	int finalVal = currentPosition + filteredVal;
+
+	if (finalVal > this->maxRotation) {
+		finalVal = this->maxRotation;
+	} else if (finalVal < this->minRotation) {
+		finalVal = this->minRotation;
 	}
+	this->servo.write(finalVal);
 }
 
 void MyServo::doWriteWithPosition(int position) {

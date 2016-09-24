@@ -12,7 +12,7 @@ class MyStepper : public Motor {
 	AccelStepper stepper;
 
 protected:
-	virtual void doWriteWithAnalog(AnalogInput& input);
+	virtual void doWriteWithAnalog(AnalogInput& input, int direction);
 	virtual void doWriteWithPosition(int position);
 
 public:

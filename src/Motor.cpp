@@ -10,9 +10,9 @@ void Motor::setBlocked(bool block) {
   this->blocked = block;
 }
 
-void Motor::writeWithAnalog(AnalogInput& input) {
+void Motor::writeWithAnalog(AnalogInput& input, int direction) {
   if (!(this->isBlocked())) {
-    this->doWriteWithAnalog(input);
+    this->doWriteWithAnalog(input, direction);
   }
 }
 

@@ -8,9 +8,9 @@ void MyStepper::setup() {
   this->stepper.setAcceleration(this->acceleration);
 }
 
-void MyStepper::doWriteWithAnalog(AnalogInput& input) {
+void MyStepper::doWriteWithAnalog(AnalogInput& input, int direction) {
   int rawVal = input.read(-100, 100);
-  int finalVal = rawVal / 10;
+  int finalVal = direction * rawVal / 10;
   this->stepper.move(finalVal);
 }
 

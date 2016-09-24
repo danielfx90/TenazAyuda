@@ -8,7 +8,7 @@ class Motor {
 	bool blocked;
 
 protected:
-	virtual void doWriteWithAnalog(AnalogInput& input) = 0;
+	virtual void doWriteWithAnalog(AnalogInput& input, int direction) = 0;
 	virtual void doWriteWithPosition(int position) = 0;
 
 public:
@@ -17,7 +17,7 @@ public:
 
 	bool isBlocked();
 	void setBlocked(bool block);
-	void writeWithAnalog(AnalogInput& input);
+	void writeWithAnalog(AnalogInput& input, int direction = 1);
 	void writeWithPosition(int position);
 	virtual void update() = 0;
 };
