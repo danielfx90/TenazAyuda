@@ -8,7 +8,7 @@
 class MyStepper : public Motor {
 
 	int maxSpeed;
-	int speed;
+	int acceleration;
 	AccelStepper stepper;
 
 protected:
@@ -16,7 +16,7 @@ protected:
 	virtual void doWriteWithPosition(int position);
 
 public:
-	MyStepper(int step, int direction, int maxSpeed, int speed);
+	MyStepper(int step, int direction, int maxSpeed, int acceleration);
 	virtual void setup();
 	virtual void update();
 };
