@@ -27,8 +27,12 @@ DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // jo
  *                                   MOTORS                                    *
  * *****************************************************************************/
 
-MyStepper stepperBase(8, 9, 400, 150);
-MyStepper stepperRotador(10,11, 800, 120);
+MyStepper stepperBase(MOTOR_BASE_STEP, MOTOR_BASE_DIRECTION, MOTOR_BASE_MAX_SPEED, MOTOR_BASE_ACCELERATION);
+MyStepper stepperRotador(MOTOR_ROTADOR_STEP, MOTOR_ROTADOR_DIRECTION, MOTOR_ROTADOR_MAX_SPEED, MOTOR_ROTADOR_ACCELERATION);
+
+MyServo servoElevacionBrazo(SERVO_ELEVACION_BRAZO_PIN);
+MyServo servoElevacionMano(SERVO_ELEVACION_MANO_PIN);
+
 Motor* motors[] = { &stepperBase, &stepperRotador };
 MotorsContainer motorsContainer(motors, 2);
 
@@ -60,11 +64,37 @@ void updateInputs() {
   joystick.update();
 }
 
+void printStates() {
+  Serial.print("UP: ");Serial.print(up.isPressed());Serial.print(" // ");
+  Serial.print("RIGHT: ");Serial.print(right.isPressed());Serial.print(" // ");
+  Serial.print("DOWN: ");Serial.print(down.isPressed());Serial.print(" // ");
+  Serial.print("LEFT: ");Serial.print(left.isPressed());Serial.print(" // ");
+  Serial.print("START: ");Serial.print(start.isPressed());Serial.print(" // ");
+  Serial.print("SELECT: ");Serial.print(select.isPressed());Serial.print(" // ");
+  Serial.print("xAxis: ");Serial.print(joystick.getXAxisInput().read(-100, 100));Serial.print(" // ");
+  Serial.print("yAxis: ");Serial.print(joystick.getYAxisInput().read(-100, 100));Serial.print("\n");
+}
+
+int cyclesCount = 0;
+
 void loop() {
+  // temporal
+  if (cyclesCount % 1000 == 0) {
+    statedChanged = true;
+    cyclesCount = 0;
+  } else {
+    cyclesCount++;
+  }
+  // -----------
+
   if (statedChanged) {
     updateInputs();
     motorsContainer.writeWithJoystick(joystick);
     statedChanged = false;
   }
   motorsContainer.update();
+
+  if (DEBUG) {
+    printStates();
+  }
 }

@@ -31,4 +31,25 @@
 #define boton_preseteado START_BUTTON
 #define boton_standby RIGHT_BUTTON
 
+/* ***************************************************************************************
+ *                                    LIMITES DE CARRERA                                 *
+ * ***************************************************************************************/
+
+
+/* ***************************************************************************************
+ *                                          MOTORES                                      *
+ * ***************************************************************************************/
+#define MOTOR_BASE_STEP 31
+#define MOTOR_BASE_DIRECTION 33
+#define MOTOR_BASE_MAX_SPEED 400
+#define MOTOR_BASE_ACCELERATION 150
+
+#define MOTOR_ROTADOR_STEP 35
+#define MOTOR_ROTADOR_DIRECTION 37
+#define MOTOR_ROTADOR_MAX_SPEED 400
+#define MOTOR_ROTADOR_ACCELERATION 150
+
+#define SERVO_ELEVACION_BRAZO_PIN 39
+#define SERVO_ELEVACION_MANO_PIN 41
+
 #endif
