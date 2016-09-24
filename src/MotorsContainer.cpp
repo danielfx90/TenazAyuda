@@ -16,9 +16,9 @@ void MotorsContainer::writeWithJoystick(Joystick& joystick) {
 	  }
 		this->resetNotification();
 	}
-  this->motors[this->currentPairSelection]->writeWithAnalog(joystick.getXAxisInput());
+  this->motors[this->currentPairSelection]->writeWithAnalog(joystick.getYAxisInput());
 	if ((this->currentPairSelection + 1) < this->quantity) {
-		this->motors[this->currentPairSelection + 1]->writeWithAnalog(joystick.getYAxisInput());
+		this->motors[this->currentPairSelection + 1]->writeWithAnalog(joystick.getXAxisInput());
 	}
 }
 
