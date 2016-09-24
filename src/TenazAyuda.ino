@@ -51,6 +51,8 @@ void setup() {
  *                                       PROGRAMA                                        *
  * ***************************************************************************************/
 
+volatile bool statedChanged = false;
+
 void updateInputs() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
    buttons[i].update();
@@ -59,6 +61,10 @@ void updateInputs() {
 }
 
 void loop() {
-  
+  if (statedChanged) {
+    updateInputs();
+    motorsContainer.writeWithJoystick(joystick);
+    statedChanged = false;
+  }
   motorsContainer.update();
 }
