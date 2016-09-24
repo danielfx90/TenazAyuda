@@ -14,6 +14,7 @@ public:
 	Joystick(int xAxisPin, int yAxisPin, int buttonPin, long buttonCoolDownInterrups);
 	AnalogInput& getXAxisInput();
 	AnalogInput& getYAxisInput();
+	void update();
 };
 
 #endif

@@ -10,3 +10,8 @@ AnalogInput& Joystick::getXAxisInput() {
 AnalogInput& Joystick::getYAxisInput() {
   return this->yAxis;
 }
+
+void Joystick::update() {
+  this->xAxis.update();
+  this->yAxis.update();
+}
