@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 DigitalInput::DigitalInput(int pin, long coolDownInterrups)
-		: pin(pin), value(HIGH), coolDownInterrups(coolDownInterrups), subscriber(NULL) {}
+		: pin(pin), value(HIGH), coolDownInterrups(coolDownInterrups), countedInterrups(coolDownInterrups), subscriber(NULL) {}
 
 void DigitalInput::setup() {
 	pinMode(this->pin, INPUT_PULLUP);

@@ -1,11 +1,11 @@
 #include "MyStepper.h"
 
-MyStepper::MyStepper(int step, int direction, int maxSpeed, int speed)
-    : Motor(), maxSpeed(maxSpeed), speed(speed), stepper(1, step, direction) {}
+MyStepper::MyStepper(int step, int direction, int maxSpeed, int acceleration)
+    : Motor(), maxSpeed(maxSpeed), acceleration(acceleration), stepper(1, step, direction) {}
 
 void MyStepper::setup() {
   this->stepper.setMaxSpeed(this->maxSpeed);
-  this->stepper.setSpeed(this->speed);
+  this->stepper.setAcceleration(this->acceleration);
 }
 
 void MyStepper::doWriteWithAnalog(AnalogInput& input) {
@@ -19,5 +19,5 @@ void MyStepper::doWriteWithPosition(int position) {
 }
 
 void MyStepper::update() {
-  this->stepper.runSpeed();
+  this->stepper.run();
 }

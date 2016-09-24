@@ -8,8 +8,11 @@ void MyServo::setup() {
 
 void MyServo::doWriteWithAnalog(AnalogInput& input) {
   int rawVal = input.read(-100, 100);
-  int finalVal = rawVal / 10;
-  this->servo.write(this->servo.read() + finalVal);
+  int filteredVal = rawVal / 10;
+	int finalVal = this->servo.read() + filteredVal;
+	if (finalVal > 0 && finalVal < 180) {
+		this->servo.write(finalVal);
+	}
 }
 
 void MyServo::doWriteWithPosition(int position) {

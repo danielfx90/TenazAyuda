@@ -1,57 +1,49 @@
-#include <Servo.h>
+#include "Configuration.h"
+#include "AnalogInput.h"
+#include "DigitalInput.h"
+#include "Joystick.h"
+#include "Motor.h"
 #include "MyServo.h"
+#include "MyStepper.h"
+#include "MotorsContainer.h"
 
 bool DEBUG = true;
 
-/* ***************************************************************************************
- *                                      PINES BOTONERA                                   *
- * ***************************************************************************************/
-const int up_button = 2;
-const int down_button = 4;
-const int left_button = 5;
-const int right_button = 3;
-const int start_button = 6;
-const int select_button = 7;
-const int analog_button = 8;
-const int x_axis = A0;
-const int y_axis = A1;
-const int buttons[] = {up_button, down_button, left_button, right_button, start_button, select_button, analog_button};
-const int buttons_quantity = 7;
+/* *****************************************************************************
+ *                                   INPUTS                                    *
+ * *****************************************************************************/
 
-/* ***************************************************************************************
- *                                     MAPEO A FUNCIONES                                 *
- * ***************************************************************************************/
-const int boton_pinza = select_button;
-const int boton_palito = down_button;
-const int boton_cambios = analog_button;
-const int boton_grabarHacer = left_button;
-const int boton_preseteado = start_button;
-const int boton_standby = right_button;
-const int boton_giro[] = {x_axis, y_axis};
+DigitalInput up(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput right(RIGHT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput down(DOWN_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput left(LEFT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput start(START_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput select(SELECT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 
-/* ***************************************************************************************
- *                                         MOTORES                                       *
- * ***************************************************************************************/
-const int servo_base_pin = 51;
+DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button only, not the potentiometer
 
-Servo servo_base;
+/* *****************************************************************************
+ *                                   MOTORS                                    *
+ * *****************************************************************************/
+
+MyStepper stepperBase(8, 9, 400, 150);
+MyStepper stepperRotador(10,11, 800, 120);
+Motor* motors[] = { &stepperBase, &stepperRotador };
+MotorsContainer motorsContainer(motors, 2);
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
  * ***************************************************************************************/
 void init_buttons() {
-  for (int i = 0; i < buttons_quantity; i++) {
-   pinMode(buttons[i], INPUT_PULLUP);
+  for (int i = 0; i < BUTTONS_QUANTITY; i++) {
+   buttons[i].setup();
   }
-}
-
-void attach_servos() {
-  servo_base.attach(servo_base_pin);
 }
 
 void setup() {
   init_buttons();
-  attach_servos();
+  motorsContainer.setup();
   Serial.begin(9600);
 }
 
@@ -59,29 +51,20 @@ void setup() {
  *                                       PROGRAMA                                        *
  * ***************************************************************************************/
 
-void printButton(char* buttonName, int buttonId) {
-  Serial.print(buttonName),Serial.print(" = "),Serial.print(digitalRead(buttonId)),Serial.print("\t");
-}
+volatile bool statedChanged = false;
 
-void printJoystick(int xAxisId, int yAxisId) {
-  Serial.print("X = "),Serial.print(map(analogRead(xAxisId), 0, 1023, -1, 1));Serial.print("\t");
-  Serial.print("Y = "),Serial.print(map(analogRead(yAxisId), 0, 1023, -1, 1));Serial.print("\n");
-}
-
-void update_servo(int axis_id, Servo* servo) {
-  int val = analogRead(axis_id);
-  val = map(val, 0, 1023, -100, 100);
-  int final_val = val / 10;
-  servo->write(servo->read() + final_val);
-}
-
-void update_servos_pair() {
-  update_servo(x_axis, &servo_base);
+void updateInputs() {
+  for (int i = 0; i < BUTTONS_QUANTITY; i++) {
+   buttons[i].update();
+  }
+  joystick.update();
 }
 
 void loop() {
-  update_servos_pair();
-  delay(150);
+  if (statedChanged) {
+    updateInputs();
+    motorsContainer.writeWithJoystick(joystick);
+    statedChanged = false;
+  }
+  motorsContainer.update();
 }
-
-

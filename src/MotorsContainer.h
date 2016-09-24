@@ -3,8 +3,9 @@
 
 #include "Motor.h"
 #include "Joystick.h"
+#include "Subscriber.h"
 
-class MotorsContainer {
+class MotorsContainer : public Subscriber {
 
 	Motor** motors;
 	int quantity;
