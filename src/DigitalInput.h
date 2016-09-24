@@ -1,6 +1,8 @@
 #ifndef DigitalInput_h
 #define DigitalInput_h
 
+#include "Subscriber.h"
+
 class DigitalInput {
 
 	int pin;
@@ -8,8 +10,10 @@ class DigitalInput {
 	long coolDownInterrups;
   long countedInterrups;
 
+	Subscriber& subscriber;
+
 public:
-	DigitalInput(int pin, long coolDownInterrups);
+	DigitalInput(int pin, long coolDownInterrups, Subscriber& subscriber);
   void setup();
 	void update();
 	bool isPressed();
