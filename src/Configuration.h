@@ -19,7 +19,7 @@
  *                                    CONSTANTES BOTONES                                 *
  * ***************************************************************************************/
 
- #define BUTTON_INTERRUPTS_COOLDOWN 5
+ #define BUTTON_INTERRUPTS_COOLDOWN 100
 
 /* ***************************************************************************************
  *                                     MAPEO A FUNCIONES                                 *
