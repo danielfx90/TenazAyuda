@@ -14,6 +14,7 @@ class DigitalInput {
 
 public:
 	DigitalInput(int pin, long coolDownInterrups);
+	int getPin();
   void setup();
 	void update();
 	bool isPressed();

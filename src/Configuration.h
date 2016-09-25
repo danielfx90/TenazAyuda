@@ -24,17 +24,9 @@
 /* ***************************************************************************************
  *                                     MAPEO A FUNCIONES                                 *
  * ***************************************************************************************/
-#define boton_pinza SELECT_BUTTON
-#define boton_palito DOWN_BUTTON
-#define boton_cambios ANALOG_BUTTON
 #define boton_grabarHacer LEFT_BUTTON
 #define boton_preseteado START_BUTTON
 #define boton_standby RIGHT_BUTTON
-
-/* ***************************************************************************************
- *                                    LIMITES DE CARRERA                                 *
- * ***************************************************************************************/
-
 
 /* ***************************************************************************************
  *                                          MOTORES                                      *
@@ -43,19 +35,21 @@
 #define MOTOR_BASE_DIRECTION 53
 #define MOTOR_BASE_MAX_SPEED 150
 #define MOTOR_BASE_ACCELERATION 250
-#define MOTOR_BASE_LIMIT_A_1 27 // TO DO
-#define MOTOR_BASE_LIMIT_A_2 29 // TO DO
-#define MOTOR_BASE_LIMIT_B_1 31 // TO DO
-#define MOTOR_BASE_LIMIT_B_2 33 // TO DO
+#define MOTOR_BASE_STOPPING_MAX_SPEED 70
+#define MOTOR_BASE_LIMIT_A_SOFT_STOP 27 // TO DO
+#define MOTOR_BASE_LIMIT_A_HARD_STOP 29 // TO DO
+#define MOTOR_BASE_LIMIT_B_SOFT_STOP 31 // TO DO
+#define MOTOR_BASE_LIMIT_B_HARD_STOP 33 // TO DO
 
 #define MOTOR_ROTADOR_STEP 47
 #define MOTOR_ROTADOR_DIRECTION 49
 #define MOTOR_ROTADOR_MAX_SPEED 60
 #define MOTOR_ROTADOR_ACCELERATION 150
-#define MOTOR_ROTADOR_LIMIT_A_1 39
-#define MOTOR_ROTADOR_LIMIT_A_2 41
-#define MOTOR_ROTADOR_LIMIT_B_1 43
-#define MOTOR_ROTADOR_LIMIT_B_2 45
+#define MOTOR_ROTADOR_STOPPING_MAX_SPEED 70
+#define MOTOR_ROTADOR_LIMIT_A_SOFT_STOP 39
+#define MOTOR_ROTADOR_LIMIT_A_HARD_STOP 41
+#define MOTOR_ROTADOR_LIMIT_B_SOFT_STOP 43
+#define MOTOR_ROTADOR_LIMIT_B_HARD_STOP 45
 
 #define SERVO_ELEVACION_BRAZO_PIN 45
 #define SERVO_ELEVACION_BRAZO_MIN_ROTATION 20

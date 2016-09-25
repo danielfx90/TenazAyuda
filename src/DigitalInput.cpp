@@ -9,6 +9,10 @@ void DigitalInput::setup() {
 	pinMode(this->pin, INPUT_PULLUP);
 }
 
+int DigitalInput::getPin() {
+	return this->pin;
+}
+
 void DigitalInput::update() {
 	if (this->countedInterrups >= this->coolDownInterrups) {
     this->value = digitalRead(this->pin);
