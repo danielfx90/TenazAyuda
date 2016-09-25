@@ -1,5 +1,7 @@
 #include "MotorsContainer.h"
 
+#include <Arduino.h>
+
 MotorsContainer::MotorsContainer(Motor** motors, int quantity)
 	: Subscriber(), motors(motors), quantity(quantity), currentPairSelection(0) {}
 

@@ -11,20 +11,6 @@
 bool DEBUG = true;
 
 /* *****************************************************************************
- *                                   INPUTS                                    *
- * *****************************************************************************/
-
-DigitalInput up(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput right(RIGHT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput down(DOWN_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput left(LEFT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput start(START_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput select(SELECT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-
-DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button only, not the potentiometer
-
-/* *****************************************************************************
  *                                   MOTORS                                    *
  * *****************************************************************************/
 
@@ -37,9 +23,23 @@ MyServo servoElevacionMano(SERVO_ELEVACION_MANO_PIN, SERVO_ELEVACION_MANO_MIN_RO
 MyServoPair servosTenazas(SERVO_TENAZAS_A_PIN, SERVO_TENAZAS_A_MIN_ROTATION, SERVO_TENAZAS_A_MAX_ROTATION,
                           SERVO_TENAZAS_B_PIN, SERVO_TENAZAS_B_MIN_ROTATION, SERVO_TENAZAS_B_MAX_ROTATION);
 
-//Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano };
-Motor* motors[] = { &servoElevacionBrazo };
+//Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano, &servosTenazas };
+Motor* motors[] = { &servosTenazas };
 MotorsContainer motorsContainer(motors, 1);
+
+/* *****************************************************************************
+ *                                   INPUTS                                    *
+ * *****************************************************************************/
+
+DigitalInput up(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput right(RIGHT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput down(DOWN_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput left(LEFT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput start(START_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput select(SELECT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON, BUTTON_INTERRUPTS_COOLDOWN, &motorsContainer);
+
+DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button only, not the potentiometer
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
@@ -54,7 +54,6 @@ void init_buttons() {
 void setup() {
   init_buttons();
   motorsContainer.setup();
-  joystick.subscribe(motorsContainer);
   Serial.begin(9600);
 }
 

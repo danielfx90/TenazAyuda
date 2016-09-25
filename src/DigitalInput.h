@@ -13,11 +13,10 @@ class DigitalInput {
 	Subscriber* subscriber;
 
 public:
-	DigitalInput(int pin, long coolDownInterrups);
+	DigitalInput(int pin, long coolDownInterrups, Subscriber* subscriber = 0);
   void setup();
 	void update();
 	bool isPressed();
-	bool subscribe(Subscriber* subscriber);
 };
 
 #endif
