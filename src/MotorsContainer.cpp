@@ -11,6 +11,22 @@ void MotorsContainer::setup() {
 	}
 }
 
+bool MotorsContainer::isBlocked() {
+	bool blocked = true;
+	for(int i = 0; i < this->quantity; i++) {
+		if (!(this->motors[i]->isBlocked())) {
+			blocked = false;
+		}
+	}
+	return blocked;
+}
+
+void MotorsContainer::setBlocked(bool block) {
+	for(int i = 0; i < this->quantity; i++) {
+		this->motors[i]->setBlocked(block);
+	}
+}
+
 void MotorsContainer::writeWithJoystick(Joystick& joystick) {
 	if (this->isNotifiedBy(joystick.getPin())) {
 		if (joystick.isPressed()) {

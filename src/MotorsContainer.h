@@ -14,6 +14,8 @@ class MotorsContainer : public Subscriber {
 public:
 	MotorsContainer(Motor** motors, int quantity);
 	void setup();
+	bool isBlocked();
+	void setBlocked(bool block);
 	void writeWithJoystick(Joystick& joystick);
 	void writeWithPositions(int* positions, int positionsQuantity);
 	void update();
