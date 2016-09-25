@@ -16,7 +16,7 @@ public:
 	virtual void setup() = 0;
 
 	bool isBlocked();
-	void setBlocked(bool block);
+	virtual void setBlocked(bool block);
 	void writeWithAnalog(AnalogInput& input, int direction = 1);
 	void writeWithPosition(int position);
 	virtual void update() = 0;
