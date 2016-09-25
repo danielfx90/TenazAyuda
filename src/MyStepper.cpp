@@ -18,8 +18,10 @@ void MyStepper::setup() {
 void MyStepper::doWriteWithAnalog(AnalogInput& input, int direction) {
   int rawVal = input.read(-512, 511);
   int val = abs(rawVal) > 100 ? rawVal : 0;
-  int finalVal = this->stepper.currentPosition() + direction * val;
-  this->stepper.moveTo(finalVal);
+  if (val != 0) {
+    int finalVal = this->stepper.currentPosition() + direction * val;
+    this->stepper.moveTo(finalVal);
+  }
 }
 
 void MyStepper::doWriteWithPosition(int position) {

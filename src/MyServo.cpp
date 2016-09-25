@@ -14,15 +14,17 @@ void MyServo::doWriteWithAnalog(AnalogInput& input, int direction) {
   float rawVal = input.read(-100.0, 100.0);
 	float filteredVal = rawVal / 100.0;
   filteredVal = abs(filteredVal) > 0.1 ? filteredVal : 0.0;
-	float currentPosition = this->servo.read();
-	float finalVal = currentPosition + direction * filteredVal;
+	if (filteredVal != 0) {
+		float currentPosition = this->servo.read();
+		float finalVal = currentPosition + direction * filteredVal;
 
-	if (finalVal > this->maxRotation) {
-		finalVal = this->maxRotation;
-	} else if (finalVal < this->minRotation) {
-		finalVal = this->minRotation;
+		if (finalVal > this->maxRotation) {
+			finalVal = this->maxRotation;
+		} else if (finalVal < this->minRotation) {
+			finalVal = this->minRotation;
+		}
+		this->servo.write(finalVal);
 	}
-	this->servo.write(finalVal);
 }
 
 void MyServo::doWriteWithPosition(int position) {
