@@ -23,8 +23,6 @@ void MyServo::doWriteWithAnalog(AnalogInput& input, int direction) {
 		finalVal = this->minRotation;
 	}
 	this->servo.write(finalVal);
-	//Serial.print("MOVEMENT: ");Serial.print(filteredVal);Serial.print(" // ");
-	//Serial.print("POSITION: ");Serial.print(finalVal);Serial.print("\n");
 }
 
 void MyServo::doWriteWithPosition(int position) {

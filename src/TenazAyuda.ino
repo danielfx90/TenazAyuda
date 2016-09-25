@@ -23,9 +23,8 @@ MyServo servoElevacionMano(SERVO_ELEVACION_MANO_PIN, SERVO_ELEVACION_MANO_MIN_RO
 MyServoPair servosTenazas(SERVO_TENAZAS_A_PIN, SERVO_TENAZAS_A_MIN_ROTATION, SERVO_TENAZAS_A_MAX_ROTATION,
                           SERVO_TENAZAS_B_PIN, SERVO_TENAZAS_B_MIN_ROTATION, SERVO_TENAZAS_B_MAX_ROTATION);
 
-//Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano, &servosTenazas };
-Motor* motors[] = { &servosTenazas };
-MotorsContainer motorsContainer(motors, 1);
+Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano, &servosTenazas };
+MotorsContainer motorsContainer(motors, 5);
 
 /* *****************************************************************************
  *                                   INPUTS                                    *
@@ -37,23 +36,28 @@ DigitalInput down(DOWN_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput left(LEFT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput start(START_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput select(SELECT_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON, BUTTON_INTERRUPTS_COOLDOWN, &motorsContainer);
+Joystick joystick(X_AXIS, Y_AXIS, JOYSTICK_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 
-DigitalInput buttons[] = {up, right, down, left, start, select, joystick}; // joystick button only, not the potentiometer
+DigitalInput* buttons[] = {&up, &right, &down, &left, &start, &select, &joystick}; // joystick button only, not the potentiometer
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
  * ***************************************************************************************/
-void init_buttons() {
+void initButtons() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
-   buttons[i].setup();
+   buttons[i]->setup();
   }
   joystick.setup();
 }
 
+void addSubscribers() {
+  joystick.subscribe(&motorsContainer);
+}
+
 void setup() {
-  init_buttons();
+  initButtons();
   motorsContainer.setup();
+  addSubscribers();
   Serial.begin(9600);
 }
 
@@ -65,7 +69,7 @@ volatile bool statedChanged = false;
 
 void updateInputs() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
-   buttons[i].update();
+   buttons[i]->update();
   }
   joystick.update();
 }
@@ -77,6 +81,7 @@ void printStates() {
   Serial.print("LEFT: ");Serial.print(left.isPressed());Serial.print(" // ");
   Serial.print("START: ");Serial.print(start.isPressed());Serial.print(" // ");
   Serial.print("SELECT: ");Serial.print(select.isPressed());Serial.print(" // ");
+  Serial.print("ANALOG: ");Serial.print(joystick.isPressed());Serial.print(" // ");
   Serial.print("xAxis: ");Serial.print(joystick.getXAxisInput().read(-100, 100));Serial.print(" // ");
   Serial.print("yAxis: ");Serial.print(joystick.getYAxisInput().read(-100, 100));Serial.print("\n");
 }
@@ -85,7 +90,7 @@ int cyclesCount = 0;
 
 void loop() {
   // temporal
-  if (cyclesCount % 5 == 0) {
+  if (cyclesCount % 100 == 0) {
     statedChanged = true;
     cyclesCount = 0;
   } else {
