@@ -1,7 +1,5 @@
 #include "MotorsContainer.h"
 
-#include <Arduino.h>
-
 MotorsContainer::MotorsContainer(Motor** motors, int quantity)
 	: Subscriber(), motors(motors), quantity(quantity), currentPairSelection(0) {}
 
@@ -16,8 +14,10 @@ void MotorsContainer::setup() {
 void MotorsContainer::writeWithJoystick(Joystick& joystick) {
 	if (this->isNotifiedBy(joystick.getPin())) {
 		if (joystick.isPressed()) {
-			Serial.print("PRESSED!\n");
 	    this->currentPairSelection = (this->currentPairSelection + 2) % this->quantity;
+			if ((this->currentPairSelection / 2) == 0) {
+				this->currentPairSelection = 0; // if quantity is odd, currentPairSelection may be 1 after first cycle.
+			}
 	  }
 		this->resetNotifications();
 	}

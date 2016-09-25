@@ -115,18 +115,6 @@ void updateInputs() {
   joystick.update();
 }
 
-void printStates() {
-  Serial.print("UP: ");Serial.print(up.isPressed());Serial.print(" // ");
-  Serial.print("RIGHT: ");Serial.print(right.isPressed());Serial.print(" // ");
-  Serial.print("DOWN: ");Serial.print(down.isPressed());Serial.print(" // ");
-  Serial.print("LEFT: ");Serial.print(left.isPressed());Serial.print(" // ");
-  Serial.print("START: ");Serial.print(start.isPressed());Serial.print(" // ");
-  Serial.print("SELECT: ");Serial.print(select.isPressed());Serial.print(" // ");
-  Serial.print("ANALOG: ");Serial.print(joystick.isPressed());Serial.print(" // ");
-  Serial.print("xAxis: ");Serial.print(joystick.getXAxisInput().read(-100, 100));Serial.print(" // ");
-  Serial.print("yAxis: ");Serial.print(joystick.getYAxisInput().read(-100, 100));Serial.print("\n");
-}
-
 int cyclesCount = 0;
 
 void loop() {

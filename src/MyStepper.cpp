@@ -1,5 +1,7 @@
 #include "MyStepper.h"
 
+#include <Arduino.h>
+
 MyStepper::MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed)
     : Motor(), Subscriber(), maxSpeed(maxSpeed), acceleration(acceleration), stoppingMaxSpeed(stoppingMaxSpeed), stepper(1, step, direction) {}
 
