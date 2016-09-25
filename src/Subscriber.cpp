@@ -9,6 +9,10 @@ void Subscriber::resetNotifications() {
 	this->notifiedPins = new Vector<int>();
 }
 
+bool Subscriber::isNotified() {
+	return this->notifiedPins->size() > 0;
+}
+
 bool Subscriber::isNotifiedBy(int pin) {
 	bool exists = false;
 	for (int i = 0; i < this->notifiedPins->size(); i++) {

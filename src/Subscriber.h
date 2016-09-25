@@ -12,6 +12,7 @@ protected:
 
 public:
 	Subscriber();
+	bool isNotified();
 	bool isNotifiedBy(int pin);
 	void notify(int pin);
 };
