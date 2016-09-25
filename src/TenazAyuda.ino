@@ -60,7 +60,7 @@ DigitalInput limitBHardStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
  *                                        ACTIONS                                        *
  * ***************************************************************************************/
 
- StandbyAction standbyAction;
+ StandbyAction standbyAction(STANDBY_PIN);
  BlockAction blockAction;
 
 /* ***************************************************************************************
@@ -106,6 +106,7 @@ void initMotors() {
 
 void initActions() {
   right.subscribe(&standbyAction);
+  standbyAction.setup();
   standbyAction.setContainer(&motorsContainer);
 
   left.subscribe(&blockAction);
@@ -154,7 +155,7 @@ void loop() {
     updateInputs();
     motorsContainer.writeWithJoystick(joystick);
     statedChanged = false;
-    updateActions();
   }
+  updateActions();
   motorsContainer.update();
 }
