@@ -14,7 +14,7 @@ void DigitalInput::update() {
     this->value = digitalRead(this->pin);
     this->countedInterrups = 0;
 		if (this->subscriber != 0) {
-			this->subscriber->notify();
+			this->subscriber->notify(this->pin);
 		}
   } else {
     this->countedInterrups++;

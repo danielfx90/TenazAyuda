@@ -1,17 +1,19 @@
 #ifndef Subscriber_h
 #define Subscriber_h
 
+#include <Vector.h>
+
 class Subscriber {
 
-	bool notified;
+	Vector<int>* notifiedPins;
 
 protected:
-	void resetNotification();
+	void resetNotifications();
 
 public:
 	Subscriber();
-	bool isNotified();
-	void notify();
+	bool isNotifiedBy(int pin);
+	void notify(int pin);
 };
 
 #endif
