@@ -9,7 +9,6 @@ protected:
 	virtual void act() = 0;
 
 public:
-	Action();
 	void update();
 };
 

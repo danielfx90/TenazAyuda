@@ -7,6 +7,8 @@
 #include "MyServoPair.h"
 #include "MyStepper.h"
 #include "MotorsContainer.h"
+#include "StandbyAction.h"
+#include "BlockAction.h"
 
 bool DEBUG = true;
 
@@ -55,6 +57,13 @@ DigitalInput limitBSoftStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitBHardStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
 
 /* ***************************************************************************************
+ *                                        ACTIONS                                        *
+ * ***************************************************************************************/
+
+ StandbyAction standbyAction;
+ BlockAction blockAction;
+
+/* ***************************************************************************************
  *                                         SETUP                                         *
  * ***************************************************************************************/
 void initButtons() {
@@ -89,16 +98,25 @@ void addLimitSensors() {
   addLimitSensorsToMotor(&stepperRotador, &limitASoftStopRotador, &limitAHardStopRotador, &limitBSoftStopRotador, &limitBHardStopRotador);
 }
 
-void addSubscribers() {
+void initMotors() {
+  motorsContainer.setup();
+  addLimitSensors();
   joystick.subscribe(&motorsContainer);
+}
+
+void initActions() {
+  right.subscribe(&standbyAction);
+  standbyAction.setContainer(&motorsContainer);
+
+  left.subscribe(&blockAction);
+  blockAction.setContainer(&motorsContainer);
 }
 
 void setup() {
   initButtons();
   initSensors();
-  motorsContainer.setup();
-  addLimitSensors();
-  addSubscribers();
+  initMotors();
+  initActions();
   Serial.begin(9600);
 }
 
@@ -113,6 +131,11 @@ void updateInputs() {
    buttons[i]->update();
   }
   joystick.update();
+}
+
+void updateActions() {
+  blockAction.update();
+  standbyAction.update();
 }
 
 int cyclesCount = 0;
@@ -131,6 +154,7 @@ void loop() {
     updateInputs();
     motorsContainer.writeWithJoystick(joystick);
     statedChanged = false;
+    updateActions();
   }
   motorsContainer.update();
 }
