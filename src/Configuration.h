@@ -30,6 +30,17 @@
 #define STANDBY_PIN 21
 #define STANDBY_SIGNAL LOW
 #define STANDBY_CYCLES 50000
+#define STANDBY_BASE_POSITION 0
+#define STANDBY_ROTADOR_POSITION 0
+#define STANDBY_ELEVACION_BRAZO_POSITION 0
+#define STANDBY_ELEVACION_MANO_POSITION 0
+#define STANDBY_TENAZAS_POSITION 0
+
+#define HOME_BASE_POSITION 20
+#define HOME_ROTADOR_POSITION 20
+#define HOME_ELEVACION_BRAZO_POSITION 20
+#define HOME_ELEVACION_MANO_POSITION 20
+#define HOME_TENAZAS_POSITION 20
 
 /* ***************************************************************************************
  *                                          MOTORES                                      *

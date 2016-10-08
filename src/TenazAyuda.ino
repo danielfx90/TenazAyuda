@@ -9,6 +9,7 @@
 #include "MotorsContainer.h"
 #include "StandbyAction.h"
 #include "BlockAction.h"
+#include "GoToAction.h"
 
 bool DEBUG = true;
 
@@ -60,8 +61,17 @@ DigitalInput limitBHardStopRotador(MOTOR_ROTADOR_LIMIT_B_HARD_STOP, BUTTON_INTER
  *                                        ACTIONS                                        *
  * ***************************************************************************************/
 
- StandbyAction standbyAction(STANDBY_PIN);
- BlockAction blockAction;
+int standbyPositions[] = {STANDBY_BASE_POSITION, STANDBY_ROTADOR_POSITION,
+                          STANDBY_ELEVACION_BRAZO_POSITION, STANDBY_ELEVACION_MANO_POSITION,
+                          STANDBY_TENAZAS_POSITION };
+StandbyAction standbyAction(STANDBY_PIN, standbyPositions, 5);
+
+int homePositions[] = {HOME_BASE_POSITION, HOME_ROTADOR_POSITION,
+                       HOME_ELEVACION_BRAZO_POSITION, HOME_ELEVACION_MANO_POSITION,
+                       HOME_TENAZAS_POSITION };
+GoToAction homeAction(homePositions, 5);
+
+BlockAction blockAction;
 
 /* ***************************************************************************************
  *                                         SETUP                                         *
@@ -109,6 +119,9 @@ void initActions() {
   standbyAction.setup();
   standbyAction.setContainer(&motorsContainer);
 
+  down.subscribe(&homeAction);
+  homeAction.setContainer(&motorsContainer);
+
   left.subscribe(&blockAction);
   blockAction.setContainer(&motorsContainer);
 }
@@ -136,6 +149,7 @@ void updateInputs() {
 
 void updateActions() {
   blockAction.update();
+  homeAction.update();
   standbyAction.update();
 }
 
