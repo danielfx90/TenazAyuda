@@ -46,15 +46,15 @@ MotorsContainer motorsContainer(motors, 5);
  *                                    LIMITES DE CARRERA                                 *
  * ***************************************************************************************/
 
-DigitalInput limitASoftStopBase(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitAHardStopBase(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitBSoftStopBase(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitBHardStopBase(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitASoftStopBase(MOTOR_BASE_LIMIT_A_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitAHardStopBase(MOTOR_BASE_LIMIT_A_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitBSoftStopBase(MOTOR_BASE_LIMIT_B_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitBHardStopBase(MOTOR_BASE_LIMIT_B_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 
-DigitalInput limitASoftStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitAHardStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitBSoftStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitBHardStopRotador(UP_BUTTON, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitASoftStopRotador(MOTOR_ROTADOR_LIMIT_A_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitAHardStopRotador(MOTOR_ROTADOR_LIMIT_A_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitBSoftStopRotador(MOTOR_ROTADOR_LIMIT_B_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitBHardStopRotador(MOTOR_ROTADOR_LIMIT_B_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 
 /* ***************************************************************************************
  *                                        ACTIONS                                        *
@@ -143,12 +143,12 @@ int cyclesCount = 0;
 
 void loop() {
   // temporal
-  if (cyclesCount % 100 == 0) {
+  //if (cyclesCount % 100 == 0) {
     statedChanged = true;
-    cyclesCount = 0;
-  } else {
-    cyclesCount++;
-  }
+  //  cyclesCount = 0;
+  //} else {
+  //  cyclesCount++;
+  //}
   // -----------
 
   if (statedChanged) {
