@@ -12,6 +12,8 @@ class MyServo : public Motor {
 	float maxRotation;
 	Servo servo;
 
+	void writePositionWithinRange(float value);
+
 protected:
 	virtual void doWriteWithAnalog(AnalogInput& input, int direction);
 	virtual void doWriteWithPosition(int position);
