@@ -6,13 +6,9 @@
 
 class BlockAction : public Action {
 
-  MotorsContainer* container;
-
 protected:
 	virtual void act();
-
-public:
-  void setContainer(MotorsContainer* container);
+  
 };
 
 #endif
