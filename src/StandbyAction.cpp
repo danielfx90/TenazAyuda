@@ -2,7 +2,9 @@
 
 #include "Configuration.h"
 
-StandbyAction::StandbyAction(int standbyPin) : Action(), standbyPin(standbyPin), cyclesCount(0) {}
+StandbyAction::StandbyAction(int standbyPin, int* positions, int positionsQuantity)
+  : GoToAction(positions, positionsQuantity),
+    standbyPin(standbyPin), cyclesCount(0) {}
 
 void StandbyAction::setup() {
   pinMode(this->standbyPin, OUTPUT);
@@ -10,8 +12,7 @@ void StandbyAction::setup() {
 
 void StandbyAction::act() {
   if (cyclesCount == 0) {
-    int positions[] = {0, 0, 0, 0, 0};
-    this->container->writeWithPositions(positions, 5);
+    GoToAction::act();
   }
   cyclesCount++;
   if (cyclesCount == STANDBY_CYCLES) {
