@@ -10,6 +10,9 @@ class MyServo : public Motor {
 	int pin;
 	float minRotation;
 	float maxRotation;
+
+	int movementInterval;
+	int countedCycles;
 	Servo servo;
 
 	void writePositionWithinRange(float value);

@@ -43,9 +43,9 @@ MyServoPair servosTenazas(SERVO_TENAZAS_A_PIN, SERVO_TENAZAS_A_MIN_ROTATION, SER
 Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano, &servosTenazas };
 MotorsContainer motorsContainer(motors, 5);
 
-/* ***************************************************************************************
- *                                    LIMITES DE CARRERA                                 *
- * ***************************************************************************************/
+/* *****************************************************************************
+ *                             LIMITES DE CARRERA                              *
+ * *****************************************************************************/
 
 DigitalInput limitASoftStopBase(MOTOR_BASE_LIMIT_A_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitAHardStopBase(MOTOR_BASE_LIMIT_A_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
@@ -57,9 +57,9 @@ DigitalInput limitAHardStopRotador(MOTOR_ROTADOR_LIMIT_A_HARD_STOP, BUTTON_INTER
 DigitalInput limitBSoftStopRotador(MOTOR_ROTADOR_LIMIT_B_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitBHardStopRotador(MOTOR_ROTADOR_LIMIT_B_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 
-/* ***************************************************************************************
- *                                        ACTIONS                                        *
- * ***************************************************************************************/
+/* *****************************************************************************
+ *                                    ACTIONS                                  *
+ * *****************************************************************************/
 
 int standbyPositions[] = {STANDBY_BASE_POSITION, STANDBY_ROTADOR_POSITION,
                           STANDBY_ELEVACION_BRAZO_POSITION, STANDBY_ELEVACION_MANO_POSITION,
@@ -70,12 +70,13 @@ int homePositions[] = {HOME_BASE_POSITION, HOME_ROTADOR_POSITION,
                        HOME_ELEVACION_BRAZO_POSITION, HOME_ELEVACION_MANO_POSITION,
                        HOME_TENAZAS_POSITION };
 GoToAction homeAction(homePositions, 5);
+GoToAction customPositionAction(homePositions, 5);
 
 BlockAction blockAction;
 
-/* ***************************************************************************************
- *                                         SETUP                                         *
- * ***************************************************************************************/
+/* *****************************************************************************
+ *                                     SETUP                                   *
+ * *****************************************************************************/
 void initButtons() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
    buttons[i]->setup();
@@ -115,6 +116,9 @@ void initMotors() {
 }
 
 void initActions() {
+  up.subscribe(&customPositionAction);
+  customPositionAction.setContainer(&motorsContainer);
+
   right.subscribe(&standbyAction);
   standbyAction.setup();
   standbyAction.setContainer(&motorsContainer);
@@ -130,13 +134,13 @@ void setup() {
   initButtons();
   initSensors();
   initMotors();
-  initActions();
+  //initActions();
   Serial.begin(9600);
 }
 
-/* ***************************************************************************************
- *                                       PROGRAMA                                        *
- * ***************************************************************************************/
+/* *****************************************************************************
+ *                                  PROGRAMA                                   *
+ * *****************************************************************************/
 
 volatile bool statedChanged = false;
 
@@ -149,6 +153,7 @@ void updateInputs() {
 
 void updateActions() {
   blockAction.update();
+  customPositionAction.update();
   homeAction.update();
   standbyAction.update();
 }
@@ -170,6 +175,6 @@ void loop() {
     motorsContainer.writeWithJoystick(joystick);
     statedChanged = false;
   }
-  updateActions();
+  //updateActions();
   motorsContainer.update();
 }

@@ -21,12 +21,21 @@ void MyStepper::doWriteWithAnalog(AnalogInput& input, int direction) {
   int rawVal = input.read(-512, 511);
   int val = abs(rawVal) > 100 ? rawVal : 0;
   if (val != 0) {
-    int finalVal = this->stepper.currentPosition() + direction * val;
-    this->stepper.moveTo(finalVal);
+    //Serial.print("Stepper ");Serial.print(this->maxSpeed);Serial.print(": ");Serial.print(val);Serial.print("\n");
+
+
+    //int finalVal = this->stepper.currentPosition() + direction * val;
+    int finalVal = direction * val;
+    //Serial.print("Stepper ");Serial.print(this->maxSpeed);Serial.print(": ");Serial.print(finalVal);Serial.print("\n");
+    this->stepper.move(finalVal);
+
+  } else {
+    this->stepper.stop();
   }
 }
 
 void MyStepper::doWriteWithPosition(int position) {
+  Serial.print("Stepper ");Serial.print(this->maxSpeed);Serial.print(": Moving to ");Serial.print(position);Serial.print("\n");
 	this->stepper.moveTo(position);
 }
 
@@ -48,6 +57,9 @@ void MyStepper::checkLimits() {
 }
 
 void MyStepper::update() {
-  this->checkLimits();
+  //this->checkLimits();
   this->stepper.run();
+//  if (this->maxSpeed % 150 == 0 && this->stepper.currentPosition() % 2 == 0) {
+//    Serial.print("Stepper ");Serial.print(this->maxSpeed);Serial.print(": ");Serial.print(this->stepper.currentPosition());Serial.print("\n");
+//  }
 }
