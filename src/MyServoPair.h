@@ -15,7 +15,9 @@ protected:
 	virtual void doWriteWithPosition(int position);
 
 public:
-	MyServoPair(int pinA, int minRotationA, int maxRotationA, int pinB, int minRotationB, int maxRotationB);
+	MyServoPair(int pinA, int minRotationA, int maxRotationA,
+						  int pinB, int minRotationB, int maxRotationB,
+						  float initialPosition, int movementInterval);
 	virtual void setup();
 	virtual void update();
 };

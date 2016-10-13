@@ -2,13 +2,13 @@
 
 #include <Arduino.h>
 
-MyServo::MyServo(int pin, float minRotation, float maxRotation)
+MyServo::MyServo(int pin, float minRotation, float maxRotation, float initialPosition, int movementInterval)
 	: Motor(), pin(pin), minRotation(minRotation), maxRotation(maxRotation),
-	  movementInterval(100), countedCycles(0), servo() {}
+	  initialPosition(100), movementInterval(100), countedCycles(0), servo() {}
 
 void MyServo::setup() {
 	this->servo.attach(this->pin);
-	this->servo.write(100);
+	this->writePositionWithinRange(this->initialPosition);
 }
 
 void MyServo::writePositionWithinRange(float value) {
@@ -17,7 +17,6 @@ void MyServo::writePositionWithinRange(float value) {
 	} else if (value < this->minRotation) {
 		value = this->minRotation;
 	}
-	//Serial.print("Servo ");Serial.print(this->pin);Serial.print(": ");Serial.print(value);Serial.print("\n");
 	this->servo.write(value);
 }
 
@@ -29,8 +28,6 @@ void MyServo::doWriteWithAnalog(AnalogInput& input, int direction) {
 		float filteredVal = rawVal / 100.0;
 	  filteredVal = abs(filteredVal) > 0.1 ? filteredVal : 0.0;
 		if (filteredVal != 0) {
-			//Serial.print("Servo ");Serial.print(this->pin);Serial.print(": ");Serial.print(filteredVal);Serial.print("\n");
-
 			float currentPosition = this->servo.read();
 			float finalVal = currentPosition + direction * filteredVal;
 			this->writePositionWithinRange(finalVal);

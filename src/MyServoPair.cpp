@@ -1,7 +1,11 @@
 #include "MyServoPair.h"
 
-MyServoPair::MyServoPair(int pinA, int minRotationA, int maxRotationA, int pinB, int minRotationB, int maxRotationB)
-	: Motor(), servoA(pinA, minRotationA, maxRotationA), servoB(pinB, minRotationB, maxRotationB) {}
+MyServoPair::MyServoPair(int pinA, int minRotationA, int maxRotationA,
+												 int pinB, int minRotationB, int maxRotationB,
+												 float initialPosition, int movementInterval)
+	: Motor(),
+		servoA(pinA, minRotationA, maxRotationA, initialPosition, movementInterval),
+		servoB(pinB, minRotationB, maxRotationB, 180 - initialPosition, movementInterval) {}
 
 void MyServoPair::setup() {
 	this->servoA.setup();
@@ -15,7 +19,7 @@ void MyServoPair::doWriteWithAnalog(AnalogInput& input, int direction) {
 
 void MyServoPair::doWriteWithPosition(int position) {
   this->servoA.writeWithPosition(position);
-  this->servoB.writeWithPosition(position);
+  this->servoB.writeWithPosition(180 - position);
 }
 
 void MyServoPair::update() {
