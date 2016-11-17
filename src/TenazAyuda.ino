@@ -111,7 +111,7 @@ void addLimitSensors() {
 
 void initMotors() {
   motorsContainer.setup();
-  addLimitSensors();
+  //addLimitSensors();
   joystick.subscribe(&motorsContainer);
 }
 
@@ -132,7 +132,7 @@ void initActions() {
 
 void setup() {
   initButtons();
-  initSensors();
+  //initSensors();
   initMotors();
   //initActions();
   Serial.begin(9600);
