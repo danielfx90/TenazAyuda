@@ -35,7 +35,6 @@ void MotorsContainer::writeWithJoystick(Joystick& joystick) {
 				this->currentPairSelection = 0; // if quantity is odd, currentPairSelection may be 1 after first cycle.
 			}
 	  }
-		//Serial.print("Pair Selection: ");Serial.print(this->currentPairSelection);Serial.print("\n");
 		this->resetNotifications();
 	}
 
