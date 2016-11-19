@@ -43,6 +43,19 @@
 #define HOME_TENAZAS_POSITION 100
 
 /* ***************************************************************************************
+ *                                         SENSORES                                      *
+ * ***************************************************************************************/
+
+ #define MOTOR_BASE_LIMIT_SOFT_STOP 33
+ #define MOTOR_BASE_LIMIT_A_HARD_STOP 35
+ #define MOTOR_BASE_LIMIT_B_HARD_STOP 37
+ #define MOTOR_ROTADOR_LIMIT_SOFT_STOP 29
+ #define MOTOR_ROTADOR_LIMIT_A_HARD_STOP 27
+ #define MOTOR_ROTADOR_LIMIT_B_HARD_STOP 23
+
+ #define SENSORS_QUANTITY 6
+
+/* ***************************************************************************************
  *                                          MOTORES                                      *
  * ***************************************************************************************/
 #define MOTOR_BASE_STEP 51
@@ -50,20 +63,12 @@
 #define MOTOR_BASE_MAX_SPEED 360
 #define MOTOR_BASE_ACCELERATION 900
 #define MOTOR_BASE_STOPPING_MAX_SPEED 70
-#define MOTOR_BASE_LIMIT_A_SOFT_STOP 37
-#define MOTOR_BASE_LIMIT_A_HARD_STOP 35
-#define MOTOR_BASE_LIMIT_B_SOFT_STOP 33
-#define MOTOR_BASE_LIMIT_B_HARD_STOP 31
 
 #define MOTOR_ROTADOR_STEP 47
 #define MOTOR_ROTADOR_DIRECTION 49
-#define MOTOR_ROTADOR_MAX_SPEED 360
-#define MOTOR_ROTADOR_ACCELERATION 900
+#define MOTOR_ROTADOR_MAX_SPEED 70
+#define MOTOR_ROTADOR_ACCELERATION 100
 #define MOTOR_ROTADOR_STOPPING_MAX_SPEED 70
-#define MOTOR_ROTADOR_LIMIT_A_SOFT_STOP 29
-#define MOTOR_ROTADOR_LIMIT_A_HARD_STOP 27
-#define MOTOR_ROTADOR_LIMIT_B_SOFT_STOP 25
-#define MOTOR_ROTADOR_LIMIT_B_HARD_STOP 23
 
 #define SERVO_ELEVACION_BRAZO_PIN 39
 #define SERVO_ELEVACION_BRAZO_MIN_ROTATION 20
