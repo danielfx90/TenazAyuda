@@ -51,15 +51,16 @@ MotorsContainer motorsContainer(motors, 5);
  *                             LIMITES DE CARRERA                              *
  * *****************************************************************************/
 
-DigitalInput limitASoftStopBase(MOTOR_BASE_LIMIT_A_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitSoftStopBase(MOTOR_BASE_LIMIT_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitAHardStopBase(MOTOR_BASE_LIMIT_A_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitBSoftStopBase(MOTOR_BASE_LIMIT_B_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitBHardStopBase(MOTOR_BASE_LIMIT_B_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 
-DigitalInput limitASoftStopRotador(MOTOR_ROTADOR_LIMIT_A_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+DigitalInput limitSoftStopRotador(MOTOR_ROTADOR_LIMIT_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitAHardStopRotador(MOTOR_ROTADOR_LIMIT_A_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
-DigitalInput limitBSoftStopRotador(MOTOR_ROTADOR_LIMIT_B_SOFT_STOP, BUTTON_INTERRUPTS_COOLDOWN);
 DigitalInput limitBHardStopRotador(MOTOR_ROTADOR_LIMIT_B_HARD_STOP, BUTTON_INTERRUPTS_COOLDOWN);
+
+DigitalInput* limitSensors[] = { &limitSoftStopBase, &limitAHardStopBase, &limitBHardStopBase,
+                                 &limitSoftStopRotador, &limitAHardStopRotador, &limitBHardStopRotador };
 
 /* *****************************************************************************
  *                                    ACTIONS                                  *
@@ -89,33 +90,30 @@ void initButtons() {
 }
 
 void initSensors() {
-  limitASoftStopBase.setup();
+  limitSoftStopBase.setup();
   limitAHardStopBase.setup();
-  limitBSoftStopBase.setup();
   limitBHardStopBase.setup();
 
-  limitASoftStopRotador.setup();
+  limitSoftStopRotador.setup();
   limitAHardStopRotador.setup();
-  limitBSoftStopRotador.setup();
   limitBHardStopRotador.setup();
 }
 
-void addLimitSensorsToMotor(MyStepper* stepper, DigitalInput* limitASoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBSoftStop, DigitalInput* limitBHardStop) {
-  stepper->addLimitSensors(limitASoftStop, limitAHardStop, limitBSoftStop, limitBHardStop);
-  limitASoftStop->subscribe(stepper);
+void addLimitSensorsToMotor(MyStepper* stepper, DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop) {
+  stepper->addLimitSensors(limitSoftStop, limitAHardStop, limitSoftStop, limitBHardStop);
+  limitSoftStop->subscribe(stepper);
   limitAHardStop->subscribe(stepper);
-  limitBSoftStop->subscribe(stepper);
   limitBHardStop->subscribe(stepper);
 }
 
 void addLimitSensors() {
-  addLimitSensorsToMotor(&stepperBase, &limitASoftStopBase, &limitAHardStopBase, &limitBSoftStopBase, &limitBHardStopBase);
-  addLimitSensorsToMotor(&stepperRotador, &limitASoftStopRotador, &limitAHardStopRotador, &limitBSoftStopRotador, &limitBHardStopRotador);
+  addLimitSensorsToMotor(&stepperBase, &limitSoftStopBase, &limitAHardStopBase, &limitBHardStopBase);
+  addLimitSensorsToMotor(&stepperRotador, &limitSoftStopRotador, &limitAHardStopRotador, &limitBHardStopRotador);
 }
 
 void initMotors() {
   motorsContainer.setup();
-  //addLimitSensors();
+  addLimitSensors();
   joystick.subscribe(&motorsContainer);
 }
 
@@ -136,7 +134,7 @@ void initActions() {
 
 void setup() {
   initButtons();
-  //initSensors();
+  initSensors();
   initMotors();
   //initActions();
   Serial.begin(9600);
@@ -148,11 +146,18 @@ void setup() {
 
 volatile bool statedChanged = false;
 
+void updateSensors() {
+  for (int i = 0; i < SENSORS_QUANTITY; i++) {
+   limitSensors[i]->update();
+  }
+}
+
 void updateInputs() {
   for (int i = 0; i < BUTTONS_QUANTITY; i++) {
    buttons[i]->update();
   }
   joystick.update();
+  updateSensors();
 }
 
 void updateActions() {
