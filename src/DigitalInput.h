@@ -9,6 +9,7 @@ class DigitalInput {
 	int value;
 	long coolDownInterrups;
   long countedInterrups;
+	bool isCounting;
 
 	Subscriber* subscriber;
 

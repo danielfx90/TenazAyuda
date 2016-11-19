@@ -21,7 +21,7 @@
  *                                    CONSTANTES BOTONES                                 *
  * ***************************************************************************************/
 
- #define BUTTON_INTERRUPTS_COOLDOWN 250
+ #define BUTTON_INTERRUPTS_COOLDOWN 6000
 
  /* ***************************************************************************************
   *                                         ACTIONS                                       *
@@ -36,11 +36,11 @@
 #define STANDBY_ELEVACION_MANO_POSITION 100
 #define STANDBY_TENAZAS_POSITION 100
 
-#define HOME_BASE_POSITION 20
-#define HOME_ROTADOR_POSITION 20
-#define HOME_ELEVACION_BRAZO_POSITION 20
-#define HOME_ELEVACION_MANO_POSITION 20
-#define HOME_TENAZAS_POSITION 20
+#define HOME_BASE_POSITION 100
+#define HOME_ROTADOR_POSITION 100
+#define HOME_ELEVACION_BRAZO_POSITION 100
+#define HOME_ELEVACION_MANO_POSITION 100
+#define HOME_TENAZAS_POSITION 100
 
 /* ***************************************************************************************
  *                                          MOTORES                                      *
@@ -65,7 +65,7 @@
 #define MOTOR_ROTADOR_LIMIT_B_SOFT_STOP 25
 #define MOTOR_ROTADOR_LIMIT_B_HARD_STOP 23
 
-#define SERVO_ELEVACION_BRAZO_PIN 45
+#define SERVO_ELEVACION_BRAZO_PIN 39
 #define SERVO_ELEVACION_BRAZO_MIN_ROTATION 20
 #define SERVO_ELEVACION_BRAZO_MAX_ROTATION 170
 #define SERVO_ELEVACION_BRAZO_MOVEMENT_INTERVAL 100
@@ -75,11 +75,11 @@
 #define SERVO_ELEVACION_MANO_MAX_ROTATION 170
 #define SERVO_ELEVACION_MANO_MOVEMENT_INTERVAL 100
 
-#define SERVO_TENAZAS_A_PIN 41
+#define SERVO_TENAZAS_A_PIN 45
 #define SERVO_TENAZAS_A_MIN_ROTATION 20
 #define SERVO_TENAZAS_A_MAX_ROTATION 170
 
-#define SERVO_TENAZAS_B_PIN 39
+#define SERVO_TENAZAS_B_PIN 41
 #define SERVO_TENAZAS_B_MIN_ROTATION 20
 #define SERVO_TENAZAS_B_MAX_ROTATION 170
 

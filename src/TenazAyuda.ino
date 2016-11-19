@@ -115,7 +115,7 @@ void addLimitSensors() {
 
 void initMotors() {
   motorsContainer.setup();
-  addLimitSensors();
+  //addLimitSensors();
   joystick.subscribe(&motorsContainer);
 }
 
@@ -136,7 +136,7 @@ void initActions() {
 
 void setup() {
   initButtons();
-  initSensors();
+  //initSensors();
   initMotors();
   //initActions();
   Serial.begin(9600);
@@ -165,20 +165,8 @@ void updateActions() {
 int cyclesCount = 0;
 
 void loop() {
-  // temporal
-  //if (cyclesCount % 100 == 0) {
-    statedChanged = true;
-  //  cyclesCount = 0;
-  //} else {
-  //  cyclesCount++;
-  //}
-  // -----------
-
-  if (statedChanged) {
-    updateInputs();
-    motorsContainer.writeWithJoystick(joystick);
-    statedChanged = false;
-  }
+  updateInputs();
+  motorsContainer.writeWithJoystick(joystick);
   //updateActions();
   motorsContainer.update();
 }
