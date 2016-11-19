@@ -19,10 +19,10 @@ void DigitalInput::update() {
 		this->isCounting = (this->countedInterrups < this->coolDownInterrups);
 	} else {
 		this->value = digitalRead(this->pin);
-		if (this->value == 0) { // si está en pull-down, reseteo el contador
+		if (this->value == LOW) { // si está en pull-down, reseteo el contador
 			this->countedInterrups = 0;
 			this->isCounting = true;
-
+			
 			if (this->subscriber != 0) { // le aviso a los subscriptores que se presionó el botón
 				this->subscriber->notify(this->pin);
 			}

@@ -162,8 +162,6 @@ void updateActions() {
   standbyAction.update();
 }
 
-int cyclesCount = 0;
-
 void loop() {
   updateInputs();
   motorsContainer.writeWithJoystick(joystick);
