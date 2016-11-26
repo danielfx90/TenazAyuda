@@ -14,14 +14,12 @@ class MyStepper : public Motor, public Subscriber {
 	int stoppingMaxSpeed;
 	AccelStepper stepper;
 
-	DigitalInput* limitASoftStop;
+	DigitalInput* limitSoftStop;
 	DigitalInput* limitAHardStop;
-
-	DigitalInput* limitBSoftStop;
 	DigitalInput* limitBHardStop;
 
-	void checkLimit(DigitalInput* limitSoftStop, DigitalInput* limitHardStop);
-	void checkLimits();
+	bool limitIsActive(DigitalInput* limit);
+	void updateStepper();
 
 protected:
 	virtual void doWriteWithAnalog(AnalogInput& input, int direction);
@@ -29,7 +27,7 @@ protected:
 
 public:
 	MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed);
-	void addLimitSensors(DigitalInput* limitASoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBSoftStop, DigitalInput* limitBHardStop);
+	void addLimitSensors(DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop);
 	virtual void setup();
 	virtual void update();
 };

@@ -100,7 +100,7 @@ void initSensors() {
 }
 
 void addLimitSensorsToMotor(MyStepper* stepper, DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop) {
-  stepper->addLimitSensors(limitSoftStop, limitAHardStop, limitSoftStop, limitBHardStop);
+  stepper->addLimitSensors(limitSoftStop, limitAHardStop, limitBHardStop);
   limitSoftStop->subscribe(stepper);
   limitAHardStop->subscribe(stepper);
   limitBHardStop->subscribe(stepper);

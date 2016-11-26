@@ -3,10 +3,9 @@
 MyStepper::MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed)
     : Motor(), Subscriber(), maxSpeed(maxSpeed), acceleration(acceleration), stoppingMaxSpeed(stoppingMaxSpeed), stepper(1, step, direction) {}
 
-void MyStepper::addLimitSensors(DigitalInput* limitASoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBSoftStop, DigitalInput* limitBHardStop) {
-  this->limitASoftStop = limitASoftStop;
+void MyStepper::addLimitSensors(DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop) {
+  this->limitSoftStop = limitSoftStop;
   this->limitAHardStop = limitAHardStop;
-  this->limitBSoftStop = limitBSoftStop;
   this->limitBHardStop = limitBHardStop;
 }
 
@@ -30,24 +29,25 @@ void MyStepper::doWriteWithPosition(int position) {
   this->stepper.moveTo(position);
 }
 
-void MyStepper::checkLimit(DigitalInput* limitSoftStop, DigitalInput* limitHardStop) {
-  if (limitSoftStop != 0 && this->isNotifiedBy(limitSoftStop->getPin()) && limitSoftStop->isPressed()) {
+bool MyStepper::limitIsActive(DigitalInput* limit) {
+  return (limit != 0 && this->isNotifiedBy(limit->getPin()) && limit->isPressed());
+}
+
+void MyStepper::updateStepper() {
+  if (this->limitIsActive(this->limitSoftStop)) {
     this->stepper.setMaxSpeed(this->stoppingMaxSpeed);
   } else {
     this->stepper.setMaxSpeed(this->maxSpeed);
   }
-  if (limitHardStop != 0 && this->isNotifiedBy(limitHardStop->getPin()) && limitHardStop->isPressed()) {
+
+  if (this->limitIsActive(this->limitAHardStop) || this->limitIsActive(this->limitBHardStop)) {
     this->stepper.stop();
+  } else {
+    this->stepper.run();
   }
 }
 
-void MyStepper::checkLimits() {
-  this->checkLimit(this->limitASoftStop, this->limitAHardStop);
-  this->checkLimit(this->limitBSoftStop, this->limitBHardStop);
-  this->resetNotifications();
-}
-
 void MyStepper::update() {
-  this->checkLimits();
-  this->stepper.run();
+  this->updateStepper();
+  this->resetNotifications();
 }
