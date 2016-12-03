@@ -18,7 +18,10 @@ class MyStepper : public Motor, public Subscriber {
 	DigitalInput* limitAHardStop;
 	DigitalInput* limitBHardStop;
 
+	bool goingToLimitA;
+
 	bool limitIsActive(DigitalInput* limit);
+	bool mustActivateHardLimit(DigitalInput* limit, bool mustGoToA);
 	void updateStepper();
 
 protected:

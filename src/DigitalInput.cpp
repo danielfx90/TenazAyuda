@@ -1,12 +1,11 @@
 #include "DigitalInput.h"
 
-#include <Arduino.h>
-
-DigitalInput::DigitalInput(int pin, long coolDownInterrups)
-		: pin(pin), value(HIGH), coolDownInterrups(coolDownInterrups), countedInterrups(0), isCounting(false), subscriber(0) {}
+DigitalInput::DigitalInput(int pin, long coolDownInterrups, int setupMode, int activeValue)
+		: pin(pin), coolDownInterrups(coolDownInterrups), countedInterrups(0), isCounting(false),
+			setupMode(setupMode), activeValue(activeValue), value(1 - activeValue), subscriber(0) {}
 
 void DigitalInput::setup() {
-	pinMode(this->pin, INPUT_PULLUP);
+	pinMode(this->pin, this->setupMode);
 }
 
 int DigitalInput::getPin() {
@@ -19,10 +18,10 @@ void DigitalInput::update() {
 		this->isCounting = (this->countedInterrups < this->coolDownInterrups);
 	} else {
 		this->value = digitalRead(this->pin);
-		if (this->value == LOW) { // si está en pull-down, reseteo el contador
+		if (this->value == this->activeValue) { // si está activado, reseteo el contador
 			this->countedInterrups = 0;
 			this->isCounting = true;
-			
+
 			if (this->subscriber != 0) { // le aviso a los subscriptores que se presionó el botón
 				this->subscriber->notify(this->pin);
 			}
@@ -31,7 +30,7 @@ void DigitalInput::update() {
 }
 
 bool DigitalInput::isPressed() {
-  return this->value == LOW;
+  return this->value == this->activeValue;
 }
 
 bool DigitalInput::subscribe(Subscriber *subscriber) {

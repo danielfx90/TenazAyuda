@@ -1,7 +1,8 @@
 #include "MyStepper.h"
 
 MyStepper::MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed)
-    : Motor(), Subscriber(), maxSpeed(maxSpeed), acceleration(acceleration), stoppingMaxSpeed(stoppingMaxSpeed), stepper(1, step, direction) {}
+    : Motor(), Subscriber(), maxSpeed(maxSpeed), acceleration(acceleration), stoppingMaxSpeed(stoppingMaxSpeed),
+    stepper(1, step, direction), goingToLimitA(true) {}
 
 void MyStepper::addLimitSensors(DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop) {
   this->limitSoftStop = limitSoftStop;
@@ -19,6 +20,7 @@ void MyStepper::doWriteWithAnalog(AnalogInput& input, int direction) {
   int val = abs(rawVal) > 100 ? rawVal : 0;
   if (val != 0) {
     int finalVal = direction * val;
+    this->goingToLimitA = rawVal < 0;
     this->stepper.move(finalVal);
   } else {
     this->stepper.stop();
@@ -30,7 +32,11 @@ void MyStepper::doWriteWithPosition(int position) {
 }
 
 bool MyStepper::limitIsActive(DigitalInput* limit) {
-  return (limit != 0 && this->isNotifiedBy(limit->getPin()) && limit->isPressed());
+  return (limit != 0 && limit->isPressed());
+}
+
+bool MyStepper::mustActivateHardLimit(DigitalInput* limit, bool mustGoToA) {
+  return (this->limitIsActive(limit) && this->goingToLimitA == mustGoToA);
 }
 
 void MyStepper::updateStepper() {
@@ -40,10 +46,20 @@ void MyStepper::updateStepper() {
     this->stepper.setMaxSpeed(this->maxSpeed);
   }
 
-  if (this->limitIsActive(this->limitAHardStop) || this->limitIsActive(this->limitBHardStop)) {
+  if (this->mustActivateHardLimit(this->limitAHardStop, true)
+  || this->mustActivateHardLimit(this->limitBHardStop, false)) {
     this->stepper.stop();
+    this->stepper.moveTo(this->stepper.currentPosition());
+    if (this->maxSpeed == 360) {
+      digitalWrite(10, LOW);
+      digitalWrite(11, HIGH);
+    }
   } else {
     this->stepper.run();
+    if (this->maxSpeed == 360) {
+      digitalWrite(10, HIGH);
+      digitalWrite(11, LOW);
+    }
   }
 }
 

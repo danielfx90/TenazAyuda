@@ -2,19 +2,22 @@
 #define DigitalInput_h
 
 #include "Subscriber.h"
+#include <Arduino.h>
 
 class DigitalInput {
 
 	int pin;
-	int value;
 	long coolDownInterrups;
   long countedInterrups;
 	bool isCounting;
+	int setupMode;
+	int activeValue;
+	int value;
 
 	Subscriber* subscriber;
 
 public:
-	DigitalInput(int pin, long coolDownInterrups);
+	DigitalInput(int pin, long coolDownInterrups, int setupMode = INPUT_PULLUP, int activeValue = LOW);
 	int getPin();
   void setup();
 	void update();
