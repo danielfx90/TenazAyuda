@@ -84,7 +84,11 @@ int homePositions[] = {HOME_BASE_POSITION, HOME_ROTADOR_POSITION,
                        HOME_ELEVACION_BRAZO_POSITION, HOME_ELEVACION_MANO_POSITION,
                        HOME_TENAZAS_POSITION };
 GoToAction homeAction(homePositions, 5);
-CustomPositionAction customPositionAction(LEFT_BUTTON, homePositions, 5);
+
+int customPositions[] = {HOME_BASE_POSITION, HOME_ROTADOR_POSITION,
+                       HOME_ELEVACION_BRAZO_POSITION, HOME_ELEVACION_MANO_POSITION,
+                       HOME_TENAZAS_POSITION };
+CustomPositionAction customPositionAction(LEFT_BUTTON, customPositions, 5);
 
 /* *****************************************************************************
  *                                     SETUP                                   *
@@ -127,6 +131,7 @@ void initMotors() {
 
 void initActions() {
   up.subscribe(&customPositionAction);
+  left.subscribe(&customPositionAction);
   customPositionAction.setContainer(&motorsContainer);
 
   right.subscribe(&standbyAction);
@@ -135,8 +140,6 @@ void initActions() {
 
   down.subscribe(&homeAction);
   homeAction.setContainer(&motorsContainer);
-
-  // left is assigned to custom position saving
 }
 
 void setup() {
@@ -144,7 +147,7 @@ void setup() {
   initButtons();
   initSensors();
   initMotors();
-  //initActions();
+  initActions();
 
   pinMode(11, OUTPUT);
 
@@ -182,7 +185,7 @@ void updateActions() {
 void loop() {
   updateInputs();
   motorsContainer.writeWithJoystick(joystick);
-  //updateActions();
+  updateActions();
   motorsContainer.update();
 
   digitalWrite(11, digitalRead(43));

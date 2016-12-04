@@ -27,7 +27,7 @@ public:
 	MyServo(int pin, float minRotation, float maxRotation, float initialPosition, int movementInterval);
 	virtual void setup();
 	virtual void update();
-	void move(int relativePosition, int direction);
+	void move(float relativePosition, int direction);
 	virtual int getPosition();
 };
 
