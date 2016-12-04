@@ -9,6 +9,8 @@ StandbyAction::StandbyAction(int standbyHighPin, int standbyLowPin, int* positio
 void StandbyAction::setup() {
   pinMode(this->standbyHighPin, OUTPUT);
   pinMode(this->standbyLowPin, OUTPUT);
+  digitalWrite(this->standbyHighPin, LOW);
+  digitalWrite(this->standbyLowPin, HIGH);
 }
 
 void StandbyAction::act() {
