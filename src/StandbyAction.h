@@ -8,6 +8,8 @@ class StandbyAction : public GoToAction {
   int standbyHighPin;
   int standbyLowPin;
 
+  void enablePins();
+
 protected:
 	virtual void act();
 
