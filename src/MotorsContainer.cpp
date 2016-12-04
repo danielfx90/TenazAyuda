@@ -68,6 +68,13 @@ int MotorsContainer::getPosition(int motorIndex) {
 	return 0;
 }
 
+bool MotorsContainer::motorHasHitLimit(int motorIndex) {
+	if (motorIndex < this->quantity) {
+		return this->motors[motorIndex]->hasHitLimit();
+	}
+	return true;
+}
+
 void MotorsContainer::update() {
 	for(int i = 0; i < this->quantity; i++) {
 		if (this->motors[i] != 0) {

@@ -53,3 +53,8 @@ void MyServo::move(float relativePosition, int direction) {
 int MyServo::getPosition() {
 	return this->servo.read();
 }
+
+bool MyServo::hasHitLimit() {
+	int pos = this->getPosition();
+	return (pos == this->minRotation || pos == this->maxRotation);
+}

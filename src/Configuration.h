@@ -62,9 +62,9 @@
 
 #define HOME_BASE_POSITION 100
 #define HOME_ROTADOR_POSITION 100
-#define HOME_ELEVACION_BRAZO_POSITION 20
-#define HOME_ELEVACION_MANO_POSITION 20
-#define HOME_TENAZAS_POSITION 20
+#define HOME_ELEVACION_BRAZO_POSITION 10
+#define HOME_ELEVACION_MANO_POSITION 10
+#define HOME_TENAZAS_POSITION 10
 
 /* ***************************************************************************************
  *                                          SENSORES                                     *

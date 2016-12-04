@@ -45,3 +45,7 @@ void MyServoPair::update() {
 int MyServoPair::getPosition() {
 	return this->servoA.getPosition();
 }
+
+bool MyServoPair::hasHitLimit() {
+	return (this->servoA.hasHitLimit() || this->servoB.hasHitLimit());
+}

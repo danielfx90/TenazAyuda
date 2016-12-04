@@ -20,6 +20,7 @@ public:
 	void writeWithPositions(int* positions, int positionsQuantity);
 	void writeWithRelativePosition(int position, int motorIndex);
 	int getPosition(int motorIndex);
+	bool motorHasHitLimit(int motorIndex);
 	void update();
 };
 

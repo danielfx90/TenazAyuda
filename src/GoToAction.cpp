@@ -13,7 +13,7 @@ void GoToAction::act() {
     int currentPosition = this->container->getPosition(i);
     int diff = abs(this->positions[i] - currentPosition);
     int finalMovement = min(diff, ACT_STEP);
-    if (finalMovement > 0) {
+    if (finalMovement > 0 && !(this->container->motorHasHitLimit(i))) {
       int direction = this->positions[i] > currentPosition ? 1 : -1;
       this->container->writeWithRelativePosition(direction * finalMovement, i);
     } else {

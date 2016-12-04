@@ -67,3 +67,7 @@ void MyStepper::update() {
 int MyStepper::getPosition() {
   return this->stepper.currentPosition();
 }
+
+bool MyStepper::hasHitLimit() {
+  return (this->limitIsActive(this->limitAHardStop) || this->limitIsActive(this->limitBHardStop));
+}

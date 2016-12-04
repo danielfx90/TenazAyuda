@@ -22,6 +22,7 @@ public:
 	void writeWithPosition(int position);
 	void writeWithRelativePosition(int position, int direction = 1);
 	virtual int getPosition() = 0;
+	virtual bool hasHitLimit() = 0;
 	virtual void update() = 0;
 };
 

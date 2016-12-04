@@ -35,6 +35,7 @@ public:
 	virtual void setup();
 	virtual void update();
 	virtual int getPosition();
+	virtual bool hasHitLimit();
 };
 
 #endif

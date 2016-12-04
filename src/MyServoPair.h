@@ -25,6 +25,7 @@ public:
 	virtual void update();
 	void addPressureSensor(DigitalInput* sensor);
 	virtual int getPosition();
+	virtual bool hasHitLimit();
 };
 
 #endif

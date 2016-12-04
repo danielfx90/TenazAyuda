@@ -29,6 +29,7 @@ public:
 	virtual void update();
 	void move(float relativePosition, int direction);
 	virtual int getPosition();
+	virtual bool hasHitLimit();
 };
 
 #endif
