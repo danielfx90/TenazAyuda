@@ -10,6 +10,7 @@ class Motor {
 protected:
 	virtual void doWriteWithAnalog(AnalogInput& input, int direction) = 0;
 	virtual void doWriteWithPosition(int position) = 0;
+	virtual void doWriteWithRelativePosition(int position, int direction) = 0;
 
 public:
 	Motor();
@@ -19,6 +20,8 @@ public:
 	virtual void setBlocked(bool block);
 	void writeWithAnalog(AnalogInput& input, int direction = 1);
 	void writeWithPosition(int position);
+	void writeWithRelativePosition(int position, int direction = 1);
+	virtual int getPosition() = 0;
 	virtual void update() = 0;
 };
 

@@ -23,15 +23,8 @@ void MyServo::writePositionWithinRange(float value) {
 void MyServo::doWriteWithAnalog(AnalogInput& input, int direction) {
 	if (this->countedCycles >= this->movementInterval) {
 		this->countedCycles = 0;
-
 		float rawVal = input.read(-100.0, 100.0);
-		float filteredVal = rawVal / 100.0;
-	  filteredVal = abs(filteredVal) > 0.1 ? filteredVal : 0.0;
-		if (filteredVal != 0) {
-			float currentPosition = this->servo.read();
-			float finalVal = currentPosition + direction * filteredVal;
-			this->writePositionWithinRange(finalVal);
-		}
+		this->move(rawVal, direction);
 	} else {
 		this->countedCycles++;
 	}
@@ -41,4 +34,22 @@ void MyServo::doWriteWithPosition(int position) {
 	this->writePositionWithinRange(position);
 }
 
+void MyServo::doWriteWithRelativePosition(int position, int direction) {
+	this->move(position, direction);
+}
+
 void MyServo::update() {}
+
+void MyServo::move(int relativePosition, int direction) {
+	float filteredVal = relativePosition / 100.0;
+	filteredVal = abs(filteredVal) > 0.1 ? filteredVal : 0.0;
+	if (filteredVal != 0) {
+		float currentPosition = this->servo.read();
+		float finalVal = currentPosition + direction * filteredVal;
+		this->writePositionWithinRange(finalVal);
+	}
+}
+
+int MyServo::getPosition() {
+	return this->servo.read();
+}

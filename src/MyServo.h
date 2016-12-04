@@ -21,11 +21,14 @@ class MyServo : public Motor {
 protected:
 	virtual void doWriteWithAnalog(AnalogInput& input, int direction);
 	virtual void doWriteWithPosition(int position);
+	virtual void doWriteWithRelativePosition(int position, int direction);
 
 public:
 	MyServo(int pin, float minRotation, float maxRotation, float initialPosition, int movementInterval);
 	virtual void setup();
 	virtual void update();
+	void move(int relativePosition, int direction);
+	virtual int getPosition();
 };
 
 #endif

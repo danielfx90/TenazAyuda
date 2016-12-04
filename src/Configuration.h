@@ -19,7 +19,8 @@
 #define Y_AXIS A1
 
 // Acciones
-#define STANDBY_PIN 21
+#define STANDBY_HIGH_PIN 21
+#define STANDBY_LOW_PIN 23
 
 // Sensores
 #define MOTOR_BASE_LIMIT_SOFT_STOP 33
@@ -28,6 +29,8 @@
 #define MOTOR_ROTADOR_LIMIT_SOFT_STOP 29
 #define MOTOR_ROTADOR_LIMIT_A_HARD_STOP 31
 #define MOTOR_ROTADOR_LIMIT_B_HARD_STOP 45
+
+#define PRESSURE_SENSOR_PIN 25
 
 // Motores
 #define MOTOR_BASE_STEP 47
@@ -50,7 +53,6 @@
  *                                         ACTIONS                                       *
  * ***************************************************************************************/
 
-#define STANDBY_SIGNAL LOW
 #define STANDBY_CYCLES 50000
 #define STANDBY_BASE_POSITION 100
 #define STANDBY_ROTADOR_POSITION 100
@@ -78,9 +80,9 @@
 #define MOTOR_BASE_ACCELERATION 900
 #define MOTOR_BASE_STOPPING_MAX_SPEED 70
 
-#define MOTOR_ROTADOR_MAX_SPEED 70
-#define MOTOR_ROTADOR_ACCELERATION 100
-#define MOTOR_ROTADOR_STOPPING_MAX_SPEED 10
+#define MOTOR_ROTADOR_MAX_SPEED 700
+#define MOTOR_ROTADOR_ACCELERATION 1000
+#define MOTOR_ROTADOR_STOPPING_MAX_SPEED 55
 
 #define SERVO_ELEVACION_BRAZO_MIN_ROTATION 20
 #define SERVO_ELEVACION_BRAZO_MAX_ROTATION 170

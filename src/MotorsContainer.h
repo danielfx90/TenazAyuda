@@ -18,6 +18,8 @@ public:
 	void setBlocked(bool block);
 	void writeWithJoystick(Joystick& joystick);
 	void writeWithPositions(int* positions, int positionsQuantity);
+	void writeWithRelativePosition(int position, int motorIndex);
+	int getPosition(int motorIndex);
 	void update();
 };
 

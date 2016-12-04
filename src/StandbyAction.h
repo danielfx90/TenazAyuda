@@ -5,14 +5,14 @@
 
 class StandbyAction : public GoToAction {
 
-  int standbyPin;
-  long cyclesCount;
+  int standbyHighPin;
+  int standbyLowPin;
 
 protected:
 	virtual void act();
 
 public:
-  StandbyAction(int standbyPin, int* positions, int positionsQuantity);
+  StandbyAction(int standbyHighPin, int standbyLowPin, int* positions, int positionsQuantity);
   void setup();
 };
 

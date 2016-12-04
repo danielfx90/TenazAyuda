@@ -31,6 +31,10 @@ void MyStepper::doWriteWithPosition(int position) {
   this->stepper.moveTo(position);
 }
 
+void MyStepper::doWriteWithRelativePosition(int position, int direction) {
+  this->stepper.move(direction * position);
+}
+
 bool MyStepper::limitIsActive(DigitalInput* limit) {
   return (limit != 0 && limit->isPressed());
 }
@@ -50,20 +54,16 @@ void MyStepper::updateStepper() {
   || this->mustActivateHardLimit(this->limitBHardStop, false)) {
     this->stepper.stop();
     this->stepper.moveTo(this->stepper.currentPosition());
-    if (this->maxSpeed == 360) {
-      digitalWrite(10, LOW);
-      digitalWrite(11, HIGH);
-    }
   } else {
     this->stepper.run();
-    if (this->maxSpeed == 360) {
-      digitalWrite(10, HIGH);
-      digitalWrite(11, LOW);
-    }
   }
 }
 
 void MyStepper::update() {
   this->updateStepper();
   this->resetNotifications();
+}
+
+int MyStepper::getPosition() {
+  return this->stepper.currentPosition();
 }

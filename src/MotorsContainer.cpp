@@ -55,6 +55,19 @@ void MotorsContainer::writeWithPositions(int* positions, int positionsQuantity) 
 	}
 }
 
+void MotorsContainer::writeWithRelativePosition(int position, int motorIndex) {
+	if (motorIndex < this->quantity) {
+		this->motors[motorIndex]->writeWithRelativePosition(position);
+	}
+}
+
+int MotorsContainer::getPosition(int motorIndex) {
+	if (motorIndex < this->quantity) {
+		return this->motors[motorIndex]->getPosition();
+	}
+	return 0;
+}
+
 void MotorsContainer::update() {
 	for(int i = 0; i < this->quantity; i++) {
 		if (this->motors[i] != 0) {

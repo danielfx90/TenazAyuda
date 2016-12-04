@@ -63,13 +63,19 @@ DigitalInput* limitSensors[] = { &limitSoftStopBase, &limitAHardStopBase, &limit
                                  &limitSoftStopRotador, &limitAHardStopRotador, &limitBHardStopRotador };
 
 /* *****************************************************************************
+ *                                OTHER SENSORS                                *
+ * *****************************************************************************/
+
+DigitalInput pressureSensor(PRESSURE_SENSOR_PIN, BUTTON_INTERRUPTS_COOLDOWN, INPUT_PULLUP);
+
+/* *****************************************************************************
  *                                    ACTIONS                                  *
  * *****************************************************************************/
 
 int standbyPositions[] = {STANDBY_BASE_POSITION, STANDBY_ROTADOR_POSITION,
                           STANDBY_ELEVACION_BRAZO_POSITION, STANDBY_ELEVACION_MANO_POSITION,
                           STANDBY_TENAZAS_POSITION };
-StandbyAction standbyAction(STANDBY_PIN, standbyPositions, 5);
+StandbyAction standbyAction(STANDBY_HIGH_PIN, STANDBY_LOW_PIN, standbyPositions, 5);
 
 int homePositions[] = {HOME_BASE_POSITION, HOME_ROTADOR_POSITION,
                        HOME_ELEVACION_BRAZO_POSITION, HOME_ELEVACION_MANO_POSITION,
@@ -112,6 +118,7 @@ void addLimitSensors() {
 void initMotors() {
   motorsContainer.setup();
   addLimitSensors();
+  servosTenazas.addPressureSensor(&pressureSensor);
   joystick.subscribe(&motorsContainer);
 }
 
@@ -128,12 +135,12 @@ void initActions() {
 }
 
 void setup() {
+  pressureSensor.setup();
   initButtons();
   initSensors();
   initMotors();
   //initActions();
 
-  pinMode(10, OUTPUT);
   pinMode(11, OUTPUT);
 
 
@@ -158,6 +165,7 @@ void updateInputs() {
   }
   joystick.update();
   updateSensors();
+  pressureSensor.update();
 }
 
 void updateActions() {
@@ -166,25 +174,11 @@ void updateActions() {
   standbyAction.update();
 }
 
-void printState() {
-  Serial.print("Base - ");
-  Serial.print("Ópt: ");Serial.print(limitSoftStopBase.isPressed());Serial.print(" // ");
-  Serial.print("Mec1: ");Serial.print(limitAHardStopBase.isPressed());Serial.print(" // ");
-  Serial.print("Mec2: ");Serial.print(limitBHardStopBase.isPressed());Serial.print(" // ");
-
-  Serial.print("Rot - ");
-  Serial.print("Ópt: ");Serial.print(limitSoftStopRotador.isPressed());Serial.print(" // ");
-  Serial.print("Mec1: ");Serial.print(limitAHardStopRotador.isPressed());Serial.print(" // ");
-  Serial.print("Mec2: ");Serial.print(limitBHardStopRotador.isPressed());Serial.print("\n");
-}
-
 void loop() {
-//  if (DEBUG) {
-//    printState();
-//  }
-
   updateInputs();
   motorsContainer.writeWithJoystick(joystick);
   //updateActions();
   motorsContainer.update();
+
+  digitalWrite(11, digitalRead(43));
 }

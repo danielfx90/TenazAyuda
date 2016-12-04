@@ -27,12 +27,14 @@ class MyStepper : public Motor, public Subscriber {
 protected:
 	virtual void doWriteWithAnalog(AnalogInput& input, int direction);
 	virtual void doWriteWithPosition(int position);
+	virtual void doWriteWithRelativePosition(int position, int direction);
 
 public:
 	MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed);
 	void addLimitSensors(DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop);
 	virtual void setup();
 	virtual void update();
+	virtual int getPosition();
 };
 
 #endif

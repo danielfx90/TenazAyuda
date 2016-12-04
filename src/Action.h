@@ -8,6 +8,7 @@ class Action : public Subscriber {
 
 protected:
 	MotorsContainer* container;
+	bool acting;
 
 	virtual void act() = 0;
 

@@ -2,20 +2,19 @@
 
 #include "Configuration.h"
 
-StandbyAction::StandbyAction(int standbyPin, int* positions, int positionsQuantity)
+StandbyAction::StandbyAction(int standbyHighPin, int standbyLowPin, int* positions, int positionsQuantity)
   : GoToAction(positions, positionsQuantity),
-    standbyPin(standbyPin), cyclesCount(0) {}
+    standbyHighPin(standbyHighPin), standbyLowPin(standbyLowPin) {}
 
 void StandbyAction::setup() {
-  pinMode(this->standbyPin, OUTPUT);
+  pinMode(this->standbyHighPin, OUTPUT);
+  pinMode(this->standbyLowPin, OUTPUT);
 }
 
 void StandbyAction::act() {
-  if (cyclesCount == 0) {
-    GoToAction::act();
-  }
-  cyclesCount++;
-  if (cyclesCount == STANDBY_CYCLES) {
-    digitalWrite(this->standbyPin, STANDBY_SIGNAL);
+  GoToAction::act();
+  if (!(this->acting)) {
+    digitalWrite(this->standbyHighPin, HIGH);
+    digitalWrite(this->standbyLowPin, LOW);
   }
 }

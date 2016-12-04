@@ -21,3 +21,9 @@ void Motor::writeWithPosition(int position) {
     this->doWriteWithPosition(position);
   }
 }
+
+void Motor::writeWithRelativePosition(int position, int direction) {
+  if (!(this->isBlocked())) {
+    this->doWriteWithRelativePosition(position, direction);
+  }
+}
