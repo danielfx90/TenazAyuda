@@ -1,3 +1,5 @@
+
+
 #include "Configuration.h"
 #include "AnalogInput.h"
 #include "DigitalInput.h"
@@ -10,6 +12,7 @@
 #include "StandbyAction.h"
 #include "BlockAction.h"
 #include "GoToAction.h"
+#include "CustomPositionAction.h"
 
 bool DEBUG = true;
 
@@ -81,7 +84,7 @@ int homePositions[] = {HOME_BASE_POSITION, HOME_ROTADOR_POSITION,
                        HOME_ELEVACION_BRAZO_POSITION, HOME_ELEVACION_MANO_POSITION,
                        HOME_TENAZAS_POSITION };
 GoToAction homeAction(homePositions, 5);
-GoToAction customPositionAction(homePositions, 5);
+CustomPositionAction customPositionAction(LEFT_BUTTON, homePositions, 5);
 
 /* *****************************************************************************
  *                                     SETUP                                   *
@@ -132,6 +135,8 @@ void initActions() {
 
   down.subscribe(&homeAction);
   homeAction.setContainer(&motorsContainer);
+
+  // left is assigned to custom position saving
 }
 
 void setup() {

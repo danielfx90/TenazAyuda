@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#define ACT_STEP 10
+#define ACT_STEP 5
 
 GoToAction::GoToAction(int* positions, int positionsQuantity)
   : positions(positions), positionsQuantity(positionsQuantity) {}

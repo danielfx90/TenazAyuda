@@ -5,10 +5,10 @@
 
 class GoToAction : public Action {
 
-	int* positions;
-  int positionsQuantity;
-
 protected:
+	int* positions;
+	int positionsQuantity;
+	
 	virtual void act();
 
 public:
