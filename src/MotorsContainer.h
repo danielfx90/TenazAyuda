@@ -16,6 +16,7 @@ public:
 	void setup();
 	bool isBlocked();
 	void setBlocked(bool block);
+	void resetPairSelection();
 	void writeWithJoystick(Joystick& joystick);
 	void writeWithPositions(int* positions, int positionsQuantity);
 	void writeWithRelativePosition(int position, int motorIndex);

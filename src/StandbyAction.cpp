@@ -21,12 +21,13 @@ void StandbyAction::act() {
   if (this->container->isBlocked()) {
     this->enablePins();
     this->container->setBlocked(false);
+    this->container->resetPairSelection();
   } else {
-    GoToAction::act();
-    if (!(this->acting)) {
+    //GoToAction::act();
+    //if (!(this->acting)) {
       digitalWrite(this->standbyHighPin, HIGH);
       digitalWrite(this->standbyLowPin, LOW);
       this->container->setBlocked(true);
-    }
+    //}
   }
 }

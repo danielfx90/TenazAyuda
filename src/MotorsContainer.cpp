@@ -27,6 +27,10 @@ void MotorsContainer::setBlocked(bool block) {
 	}
 }
 
+void MotorsContainer::resetPairSelection() {
+	this->currentPairSelection = 0;
+}
+
 void MotorsContainer::writeWithJoystick(Joystick& joystick) {
 	if (this->isNotifiedBy(joystick.getPin())) {
 		if (joystick.isPressed()) {

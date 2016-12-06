@@ -2,9 +2,9 @@
 
 #include <Arduino.h>
 
-MyServo::MyServo(int pin, float minRotation, float maxRotation, float initialPosition, int movementInterval)
-	: Motor(), pin(pin), minRotation(minRotation), maxRotation(maxRotation),
-	  initialPosition(100), movementInterval(100), countedCycles(0), servo() {}
+MyServo::MyServo(int pin, float minRotation, float maxRotation, float initialPosition, int movementInterval, int direction)
+	: Motor(direction), pin(pin), minRotation(minRotation), maxRotation(maxRotation),
+	  initialPosition(initialPosition), movementInterval(movementInterval), countedCycles(0), servo() {}
 
 void MyServo::setup() {
 	this->servo.attach(this->pin);
@@ -20,13 +20,13 @@ void MyServo::writePositionWithinRange(float value) {
 	this->servo.write(value);
 }
 
-void MyServo::doWriteWithAnalog(AnalogInput& input, int direction) {
+void MyServo::doWriteWithAnalog(AnalogInput& input) {
 	if (this->countedCycles >= this->movementInterval) {
 		this->countedCycles = 0;
 		float rawVal = input.read(-100.0, 100.0);
 		float filteredVal = rawVal / 100.0;
 		filteredVal = abs(filteredVal) > 0.1 ? filteredVal : 0.0;
-		this->move(filteredVal, direction);
+		this->move(filteredVal);
 	} else {
 		this->countedCycles++;
 	}
@@ -36,16 +36,16 @@ void MyServo::doWriteWithPosition(int position) {
 	this->writePositionWithinRange(position);
 }
 
-void MyServo::doWriteWithRelativePosition(int position, int direction) {
-	this->move(position, direction);
+void MyServo::doWriteWithRelativePosition(int position) {
+	this->move(position);
 }
 
 void MyServo::update() {}
 
-void MyServo::move(float relativePosition, int direction) {
+void MyServo::move(float relativePosition) {
 	if (relativePosition != 0) {
 		float currentPosition = this->servo.read();
-		float finalVal = currentPosition + direction * relativePosition;
+		float finalVal = currentPosition + this->direction * relativePosition;
 		this->writePositionWithinRange(finalVal);
 	}
 }

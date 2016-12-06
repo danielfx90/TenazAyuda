@@ -2,10 +2,10 @@
 
 MyServoPair::MyServoPair(int pinA, int minRotationA, int maxRotationA,
 												 int pinB, int minRotationB, int maxRotationB,
-												 float initialPosition, int movementInterval)
-	: Motor(),
-		servoA(pinA, minRotationA, maxRotationA, initialPosition, movementInterval),
-		servoB(pinB, minRotationB, maxRotationB, 180 - initialPosition, movementInterval),
+												 float initialPosition, int movementInterval, int direction)
+	: Motor(direction),
+		servoA(pinA, minRotationA, maxRotationA, initialPosition, movementInterval, direction),
+		servoB(pinB, minRotationB, maxRotationB, 180 - initialPosition, movementInterval, -direction),
 		pressureSensor(0) {}
 
 void MyServoPair::setup() {
@@ -13,9 +13,9 @@ void MyServoPair::setup() {
   this->servoB.setup();
 }
 
-void MyServoPair::doWriteWithAnalog(AnalogInput& input, int direction) {
-  this->servoA.writeWithAnalog(input, direction);
-  this->servoB.writeWithAnalog(input, -direction);
+void MyServoPair::doWriteWithAnalog(AnalogInput& input) {
+  this->servoA.writeWithAnalog(input);
+  this->servoB.writeWithAnalog(input);
 }
 
 void MyServoPair::doWriteWithPosition(int position) {
@@ -23,9 +23,9 @@ void MyServoPair::doWriteWithPosition(int position) {
   this->servoB.writeWithPosition(180 - position);
 }
 
-void MyServoPair::doWriteWithRelativePosition(int position, int direction) {
-  this->servoA.writeWithRelativePosition(position * direction);
-  this->servoB.writeWithRelativePosition(position * -direction);
+void MyServoPair::doWriteWithRelativePosition(int position) {
+  this->servoA.writeWithRelativePosition(position);
+  this->servoB.writeWithRelativePosition(position);
 }
 
 void MyServoPair::addPressureSensor(DigitalInput* sensor) {
@@ -34,8 +34,8 @@ void MyServoPair::addPressureSensor(DigitalInput* sensor) {
 
 void MyServoPair::update() {
 //	if (this->pressureSensor != 0 && this->pressureSensor->isPressed()) {
-//		this->servoA.move(-1, 1);
-//		this->servoB.move(-1, -1);
+//		this->servoA.move(-1);
+//		this->servoB.move(-1);
 //	}
 
   this->servoA.update();

@@ -32,18 +32,18 @@ DigitalInput* buttons[] = {&up, &right, &down, &left, &start, &select, &joystick
  *                                   MOTORS                                    *
  * *****************************************************************************/
 
-MyStepper stepperBase(MOTOR_BASE_STEP, MOTOR_BASE_DIRECTION, MOTOR_BASE_MAX_SPEED, MOTOR_BASE_ACCELERATION, MOTOR_BASE_STOPPING_MAX_SPEED);
-MyStepper stepperRotador(MOTOR_ROTADOR_STEP, MOTOR_ROTADOR_DIRECTION, MOTOR_ROTADOR_MAX_SPEED, MOTOR_ROTADOR_ACCELERATION, MOTOR_ROTADOR_STOPPING_MAX_SPEED);
+MyStepper stepperBase(MOTOR_BASE_STEP, MOTOR_BASE_DIRECTION, MOTOR_BASE_MAX_SPEED, MOTOR_BASE_ACCELERATION, MOTOR_BASE_STOPPING_MAX_SPEED, MOTOR_BASE_JOYSTICK_DIRECTION);
+MyStepper stepperRotador(MOTOR_ROTADOR_STEP, MOTOR_ROTADOR_DIRECTION, MOTOR_ROTADOR_MAX_SPEED, MOTOR_ROTADOR_ACCELERATION, MOTOR_ROTADOR_STOPPING_MAX_SPEED, MOTOR_ROTADOR_JOYSTICK_DIRECTION);
 
 MyServo servoElevacionBrazo(SERVO_ELEVACION_BRAZO_PIN, SERVO_ELEVACION_BRAZO_MIN_ROTATION, SERVO_ELEVACION_BRAZO_MAX_ROTATION,
-                            STANDBY_ELEVACION_BRAZO_POSITION, SERVO_ELEVACION_BRAZO_MOVEMENT_INTERVAL);
+                            STANDBY_ELEVACION_BRAZO_POSITION, SERVO_ELEVACION_BRAZO_MOVEMENT_INTERVAL, SERVO_ELEVACION_BRAZO_JOYSTICK_DIRECTION);
 
 MyServo servoElevacionMano(SERVO_ELEVACION_MANO_PIN, SERVO_ELEVACION_MANO_MIN_ROTATION, SERVO_ELEVACION_MANO_MAX_ROTATION,
-                           STANDBY_ELEVACION_MANO_POSITION, SERVO_ELEVACION_MANO_MOVEMENT_INTERVAL);
+                           STANDBY_ELEVACION_MANO_POSITION, SERVO_ELEVACION_MANO_MOVEMENT_INTERVAL, SERVO_ELEVACION_MANO_JOYSTICK_DIRECTION);
 
 MyServoPair servosTenazas(SERVO_TENAZAS_A_PIN, SERVO_TENAZAS_A_MIN_ROTATION, SERVO_TENAZAS_A_MAX_ROTATION,
                           SERVO_TENAZAS_B_PIN, SERVO_TENAZAS_B_MIN_ROTATION, SERVO_TENAZAS_B_MAX_ROTATION,
-                          STANDBY_TENAZAS_POSITION, SERVO_TENAZAS_MOVEMENT_INTERVAL);
+                          STANDBY_TENAZAS_POSITION, SERVO_TENAZAS_MOVEMENT_INTERVAL, SERVO_TENAZAS_JOYSTICK_DIRECTION);
 
 Motor* motors[] = { &stepperBase, &stepperRotador, &servoElevacionBrazo, &servoElevacionMano, &servosTenazas };
 MotorsContainer motorsContainer(motors, 5);
@@ -175,9 +175,11 @@ void updateInputs() {
 }
 
 void updateActions() {
-  customPositionAction.update();
-  homeAction.update();
-  standbyAction.update();
+  bool changed = standbyAction.update();
+  if (!(motorsContainer.isBlocked())) {
+    customPositionAction.update(changed);
+    homeAction.update(changed);
+  }
 }
 
 void loop() {
@@ -186,5 +188,5 @@ void loop() {
   updateActions();
   motorsContainer.update();
 
-  digitalWrite(11, digitalRead(43));
+  digitalWrite(11, 1 - digitalRead(25));
 }

@@ -1,7 +1,7 @@
 #include "MyStepper.h"
 
-MyStepper::MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed)
-    : Motor(), Subscriber(), maxSpeed(maxSpeed), acceleration(acceleration), stoppingMaxSpeed(stoppingMaxSpeed),
+MyStepper::MyStepper(int step, int direction, int maxSpeed, int acceleration, int stoppingMaxSpeed, int motorDirection)
+    : Motor(motorDirection), Subscriber(), maxSpeed(maxSpeed), acceleration(acceleration), stoppingMaxSpeed(stoppingMaxSpeed),
     stepper(1, step, direction), goingToLimitA(true) {}
 
 void MyStepper::addLimitSensors(DigitalInput* limitSoftStop, DigitalInput* limitAHardStop, DigitalInput* limitBHardStop) {
@@ -15,11 +15,11 @@ void MyStepper::setup() {
   this->stepper.setAcceleration(this->acceleration);
 }
 
-void MyStepper::doWriteWithAnalog(AnalogInput& input, int direction) {
+void MyStepper::doWriteWithAnalog(AnalogInput& input) {
   int rawVal = input.read(-512, 511);
   int val = abs(rawVal) > 100 ? rawVal : 0;
   if (val != 0) {
-    int finalVal = direction * val;
+    int finalVal = this->direction * val;
     this->goingToLimitA = rawVal < 0;
     this->stepper.move(finalVal);
   } else {
@@ -31,8 +31,8 @@ void MyStepper::doWriteWithPosition(int position) {
   this->stepper.moveTo(position);
 }
 
-void MyStepper::doWriteWithRelativePosition(int position, int direction) {
-  this->stepper.move(direction * position);
+void MyStepper::doWriteWithRelativePosition(int position) {
+  this->stepper.move(this->direction * position);
 }
 
 bool MyStepper::limitIsActive(DigitalInput* limit) {

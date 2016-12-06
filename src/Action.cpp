@@ -6,11 +6,16 @@ void Action::setContainer(MotorsContainer* container) {
   this->container = container;
 }
 
-void Action::update() {
+bool Action::update(bool resetNotifications) {
+  if (resetNotifications) {
+    this->resetNotifications();
+  }
   if (this->isNotified() || this->acting) {
     if (this->container != 0) {
       this->act();
     }
     this->resetNotifications();
+    return true;
   }
+  return false;
 }

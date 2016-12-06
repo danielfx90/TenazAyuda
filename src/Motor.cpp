@@ -1,6 +1,6 @@
 #include "Motor.h"
 
-Motor::Motor() : blocked(false) {}
+Motor::Motor(int direction) : blocked(false), direction(direction) {}
 
 bool Motor::isBlocked() {
   return this->blocked;
@@ -10,9 +10,9 @@ void Motor::setBlocked(bool block) {
   this->blocked = block;
 }
 
-void Motor::writeWithAnalog(AnalogInput& input, int direction) {
+void Motor::writeWithAnalog(AnalogInput& input) {
   if (!(this->isBlocked())) {
-    this->doWriteWithAnalog(input, direction);
+    this->doWriteWithAnalog(input);
   }
 }
 
@@ -22,8 +22,8 @@ void Motor::writeWithPosition(int position) {
   }
 }
 
-void Motor::writeWithRelativePosition(int position, int direction) {
+void Motor::writeWithRelativePosition(int position) {
   if (!(this->isBlocked())) {
-    this->doWriteWithRelativePosition(position, direction);
+    this->doWriteWithRelativePosition(position);
   }
 }

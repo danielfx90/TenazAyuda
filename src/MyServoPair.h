@@ -13,14 +13,14 @@ class MyServoPair : public Motor {
 	DigitalInput* pressureSensor;
 
 protected:
-  virtual void doWriteWithAnalog(AnalogInput& input, int direction);
+  virtual void doWriteWithAnalog(AnalogInput& input);
 	virtual void doWriteWithPosition(int position);
-	virtual void doWriteWithRelativePosition(int position, int direction);
+	virtual void doWriteWithRelativePosition(int position);
 
 public:
 	MyServoPair(int pinA, int minRotationA, int maxRotationA,
 						  int pinB, int minRotationB, int maxRotationB,
-						  float initialPosition, int movementInterval);
+						  float initialPosition, int movementInterval, int direction = 1);
 	virtual void setup();
 	virtual void update();
 	void addPressureSensor(DigitalInput* sensor);

@@ -15,7 +15,7 @@ protected:
 public:
 	Action();
 	void setContainer(MotorsContainer* container);
-	void update();
+	bool update(bool resetNotifications = false);
 };
 
 #endif
