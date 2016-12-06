@@ -12,7 +12,7 @@
 #include "GoToAction.h"
 #include "CustomPositionAction.h"
 
-bool DEBUG = true;
+#define ENABLE_ACTIONS false
 
 /* *****************************************************************************
  *                                   INPUTS                                    *
@@ -128,16 +128,18 @@ void initMotors() {
 }
 
 void initActions() {
-  up.subscribe(&customPositionAction);
-  left.subscribe(&customPositionAction);
-  customPositionAction.setContainer(&motorsContainer);
+  if (ENABLE_ACTIONS) {
+    up.subscribe(&customPositionAction);
+    left.subscribe(&customPositionAction);
+    customPositionAction.setContainer(&motorsContainer);
+
+    down.subscribe(&homeAction);
+    homeAction.setContainer(&motorsContainer);
+  }
 
   right.subscribe(&standbyAction);
   standbyAction.setup();
   standbyAction.setContainer(&motorsContainer);
-
-  down.subscribe(&homeAction);
-  homeAction.setContainer(&motorsContainer);
 }
 
 void setup() {
@@ -176,9 +178,11 @@ void updateInputs() {
 
 void updateActions() {
   bool changed = standbyAction.update();
-  if (!(motorsContainer.isBlocked())) {
-    customPositionAction.update(changed);
-    homeAction.update(changed);
+  if (ENABLE_ACTIONS) {
+    if (!(motorsContainer.isBlocked())) {
+      customPositionAction.update(changed);
+      homeAction.update(changed);
+    }
   }
 }
 
